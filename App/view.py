@@ -37,7 +37,24 @@ operación solicitada
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
-    print("2- ")
+    print("2- Listar cronológicamente los artistas")
+    print("3- Listar cronológicamente las adquisiciones")
+    print("4- Clasificar obras de un artista por técnica")
+    print("5- Clasificar obras por la nacionalidad de sus creadores")
+    print("6- Transportar obras de un departamento")
+    print("7- Proponer una nueva exposición en el museo")
+
+def initCatalog():
+    """
+    Inicializa el catalogo del museo
+    """
+    return controller.initCatalog()
+
+def loadData(catalog):
+    """
+    Carga los datos del mueso en la estructura de datos
+    """
+    controller.loadData(catalog)
 
 catalog = None
 
@@ -49,9 +66,28 @@ while True:
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
+        catalog = initCatalog()
+        loadData(catalog)
+        print('Obras de Arte cargadas: ' + str(lt.size(catalog['Artwork'])))
+        print('Artistas cargados: ' + str(lt.size(catalog['Artist'])))
 
     elif int(inputs[0]) == 2:
-        pass
+        print("Implementación en curso, vuelve luego ....")
+
+    elif int(inputs[0]) == 3:
+        print("Implementación en curso, vuelve luego ....")
+    
+    elif int(inputs[0]) == 4:
+        print("Implementación en curso, vuelve luego ....")
+    
+    elif int(inputs[0]) == 5:
+        print("Implementación en curso, vuelve luego ....")
+
+    elif int(inputs[0]) == 6:
+        print("Implementación en curso, vuelve luego ....")
+
+    elif int(inputs[0]) == 7:
+        print("Implementación en curso, vuelve luego ....")
 
     else:
         sys.exit(0)
