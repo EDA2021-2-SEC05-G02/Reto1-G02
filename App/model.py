@@ -44,22 +44,52 @@ def newCatalog():
                'Artist': None}
 
     catalog['Artwork'] = lt.newList()
-    catalog['Artist'] = lt.newList()
+    catalog['Artist'] = lt.newList('ARRAY_LIST',
+                                    cmpfunction=compareartist)
     return catalog
 
 # Funciones para agregar informacion al catalogo
 
 def addArtwork(catalog, artwork):
     lt.addLast(catalog['Artwork'], artwork)
-
+    artists = artwork['ConstituentID'].split(",")
+    
 
 def addArtist(catalog, artist):
-    lt.addLast(catalog['Artist'], artist)
+    a = newArtist(artist['ConstituentID'], artist['DisplayName'], artist['ArtistBio'],
+                    artist['Nationality'], artist['Gender'], artist['BeginDate'], 
+                    artist['EndDate'], artist['Wiki QID'], artist['ULAN'])
+    lt.addLast(catalog['Artist'], a)
 
 # Funciones para creacion de datos
 
+def newArtist(ConstituentID, DisplayName, ArtistBio, Nationality, Gender,
+                BeginDate, EndDate, WikiQID, ULAN):
+    """
+    Crea una nueva estructura para modelar los libros de
+    un autor y su promedio de ratings
+    """
+    artist = {'ConstituentID': "", 'DisplayName': "", 'ArtistBio': "",
+                'Nationality': "", 'Gender': "", 'BeginDate': "", 
+                'EndDate': "", 'Wiki QID': "", 'ULAN': ""}
+    artist['ConstituentID'] = ConstituentID
+    artist['DisplayName'] = DisplayName
+    artist['ArtistBio'] = ArtistBio
+    artist['Nationality'] = Nationality
+    artist['Gender'] = Gender
+    artist['BeginDate'] = BeginDate
+    artist['EndDate'] = EndDate
+    artist['Wiki QID'] = WikiQID
+    artist['ULAN'] = ULAN
+    return artist
+    
 # Funciones de consulta
 
 # Funciones utilizadas para comparar elementos dentro de una lista
+
+def compareartist (authorname1, author):
+    if (authorname1.lower() in author['name'].lower()):
+        return 0
+    return -1
 
 # Funciones de ordenamiento
