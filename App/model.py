@@ -29,6 +29,7 @@ import config as cf
 from DISClib.ADT import list as lt
 from DISClib.Algorithms.Sorting import shellsort as sa
 assert cf
+from datetime import datetime, date
 
 """
 Se define la estructura de un catálogo de videos. El catálogo tendrá dos listas, una para los videos, otra para las categorias de
@@ -41,25 +42,33 @@ def newCatalog():
     Inicializa el catálogo de Obras de arte.
     """
     catalog = {'Artwork': None,
-               'Artist': None}
+               'Artist': None,
+               'ArtworkArtist': None}
 
     catalog['Artwork'] = lt.newList()
     catalog['Artist'] = lt.newList('ARRAY_LIST',
                                     cmpfunction=compareartist)
+    catalog['ArtworkArtist'] = lt.newList('ARRAY_LIST')
     return catalog
 
 # Funciones para agregar informacion al catalogo
 
 def addArtwork(catalog, artwork):
-    lt.addLast(catalog['Artwork'], artwork)
-    artists = artwork['ConstituentID'].split(",")
-    
+    a = newArtwork(artwork['ObjectID'],artwork['Title'],artwork['ConstituentID'],
+                    artwork['Date'],artwork['Medium'],artwork['Dimensions'],
+                    artwork['CreditLine'],artwork['AccessionNumber'],artwork['Classification'],
+                    artwork['Department'],artwork['DateAcquired'],artwork['Cataloged'],
+                    artwork['URL'],)
+
+    lt.addLast(catalog['Artwork'], a)
+
 
 def addArtist(catalog, artist):
     a = newArtist(artist['ConstituentID'], artist['DisplayName'], artist['ArtistBio'],
                     artist['Nationality'], artist['Gender'], artist['BeginDate'], 
                     artist['EndDate'], artist['Wiki QID'], artist['ULAN'])
     lt.addLast(catalog['Artist'], a)
+
 
 # Funciones para creacion de datos
 
@@ -69,19 +78,47 @@ def newArtist(ConstituentID, DisplayName, ArtistBio, Nationality, Gender,
     Crea una nueva estructura para modelar los libros de
     un autor y su promedio de ratings
     """
-    artist = {'ConstituentID': "", 'DisplayName': "", 'ArtistBio': "",
-                'Nationality': "", 'Gender': "", 'BeginDate': "", 
-                'EndDate': "", 'Wiki QID': "", 'ULAN': ""}
-    artist['ConstituentID'] = ConstituentID
+    artist = {'ConstituentID': None, 'DisplayName': "", 'ArtistBio': "",
+                'Nationality': "", 'Gender': "", 'BeginDate': None, 
+                'EndDate': None, 'Wiki QID': "", 'ULAN': ""}
+    artist['ConstituentID'] = int(ConstituentID.replace('[', '').replace(']',''))
     artist['DisplayName'] = DisplayName
     artist['ArtistBio'] = ArtistBio
     artist['Nationality'] = Nationality
     artist['Gender'] = Gender
-    artist['BeginDate'] = BeginDate
-    artist['EndDate'] = EndDate
+    artist['BeginDate'] = int(BeginDate)
+    artist['EndDate'] = int(EndDate)
     artist['Wiki QID'] = WikiQID
     artist['ULAN'] = ULAN
     return artist
+
+def newArtwork (ObjectID, Title, ConstituentID, Date, Medium, Dimensions, CreditLine,
+                AccessionNumber, Classification, Department, DateAcquired, Cataloged,
+                URL):
+    artwork = {'ObjectID': None, 'Title': "", 'ConstituentID': None,
+                'Date': "", 'Medium': "", 'Dimensions': "", 'CreditLine': "", 
+                'AccessionNumber': None, 'Classification': "", 
+                'Department': "", 'Date Acquired': "", 'Cataloged': "",
+                'URL': ""}
+
+    constID_str = ConstituentID.replace('[', '').replace(']','').split(",")
+    constID_int = [int(x) for x in constID_str]
+
+    artwork['ObjectID'] = int(ObjectID.replace('[', '').replace(']',''))
+    artwork['Title'] = Title
+    artwork['ConstituentID'] = constID_int
+    artwork['Date'] = Date
+    artwork['Medium'] = Medium
+    artwork['Dimensions'] = Dimensions
+    artwork['CreditLine'] = CreditLine
+    artwork['AccessionNumber'] = AccessionNumber
+    artwork['Classification'] = Classification
+    artwork['Department'] = Department
+    if DateAcquired != "":
+        artwork['Date Acquired'] = datetime.strptime(DateAcquired, '%Y-%m-%d').date()
+    artwork['Cataloged'] = Cataloged
+    artwork['URL'] = URL
+    return artwork
     
 # Funciones de consulta
 
@@ -92,4 +129,10 @@ def compareartist (authorname1, author):
         return 0
     return -1
 
+def compareDates(Artist1, Artist2):
+    return (int(Artist1['BeginDate']) > int(Artist2['BeginDate']))
+
 # Funciones de ordenamiento
+
+def sortArtist(catalog):
+    sa.sort(catalog['Artist'], compareDates)
