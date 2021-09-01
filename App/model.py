@@ -119,6 +119,21 @@ def newArtwork (ObjectID, Title, ConstituentID, Date, Medium, Dimensions, Credit
     return artwork
     
 # Funciones de consulta
+def getLast3Atworks(catalog):
+    atw = catalog['Artwork']
+    lastres = lt.newList('SINGLE_LINKED')
+    for i in range(-3,0):
+        last = lt.getElement(atw, i)
+        lt.addLast(lastres, last)
+    return lastres
+
+def getLast3Artists(catalog):
+    at = catalog['Artist']
+    lastres = lt.newList('SINGLE_LINKED')
+    for i in range(-3,0):
+        last = lt.getElement(at, i)
+        lt.addLast(lastres, last)
+    return lastres
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 

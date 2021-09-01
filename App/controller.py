@@ -79,3 +79,14 @@ def sortArtist(catalog):
 
 
 # Funciones de consulta sobre el catálogo
+def getLast3Artists(catalog):
+    """
+    Retorna los últimos 3 artistas
+    """
+    return model.getLast3Artists(catalog)
+
+def getLast3Atworks(catalog):
+    """
+    Retorna los últimos 3 obras de arte
+    """
+    return model.getLast3Atworks(catalog)

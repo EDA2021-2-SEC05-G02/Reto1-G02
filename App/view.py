@@ -56,6 +56,18 @@ def loadData(catalog):
     """
     controller.loadData(catalog)
 
+def last3Artists(catalog):
+    """
+    Imprime los últimos 3 artistas registrados
+    """
+    return controller.getLast3Artists(catalog)
+
+def last3Atworks(catalog):
+    """
+    Imprime los últimos 3 obras registradas
+    """
+    return controller.getLast3Atworks(catalog)
+
 catalog = None
 
 """
@@ -70,6 +82,10 @@ while True:
         loadData(catalog)
         print('Obras de Arte cargadas: ' + str(lt.size(catalog['Artwork'])))
         print('Artistas cargados: ' + str(lt.size(catalog['Artist'])))
+        Artistas = last3Artists(catalog)
+        Obras = last3Atworks(catalog)
+        print("Los últimos 3 artistas son: " , Artistas)
+        print("Las últimas 3 obras son: " , Obras)
 
     elif int(inputs[0]) == 2:
         print("Implementación en curso, vuelve luego ....")
