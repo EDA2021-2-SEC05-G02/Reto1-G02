@@ -113,7 +113,7 @@ def newArtwork (ObjectID, Title, ConstituentID, Date, Medium, Dimensions, Credit
     artwork['Classification'] = Classification
     artwork['Department'] = Department
     if DateAcquired != "":
-        artwork['Date Acquired'] = datetime.strptime(DateAcquired, '%Y-%m-%d').date()
+        artwork['Date Acquired'] = datetime.strptime(str(DateAcquired), '%Y-%m-%d').date()
     artwork['Cataloged'] = Cataloged
     artwork['URL'] = URL
     return artwork
@@ -122,7 +122,7 @@ def newArtwork (ObjectID, Title, ConstituentID, Date, Medium, Dimensions, Credit
 def getLast3Atworks(catalog):
     atw = catalog['Artwork']
     lastres = lt.newList('SINGLE_LINKED')
-    for i in range(-3,0):
+    for i in range(lt.size(atw)-2,lt.size(atw)+1):
         last = lt.getElement(atw, i)
         lt.addLast(lastres, last)
     return lastres
@@ -130,7 +130,7 @@ def getLast3Atworks(catalog):
 def getLast3Artists(catalog):
     at = catalog['Artist']
     lastres = lt.newList('SINGLE_LINKED')
-    for i in range(-3,0):
+    for i in range(lt.size(at)-2,lt.size(at)+1):
         last = lt.getElement(at, i)
         lt.addLast(lastres, last)
     return lastres
