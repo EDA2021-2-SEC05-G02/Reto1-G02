@@ -42,13 +42,11 @@ def newCatalog():
     Inicializa el catálogo de Obras de arte.
     """
     catalog = {'Artwork': None,
-               'Artist': None,
-               'ArtworkArtist': None}
+               'Artist': None}
 
-    catalog['Artwork'] = lt.newList()
-    catalog['Artist'] = lt.newList('ARRAY_LIST',
+    catalog['Artwork'] = lt.newList('SINGLE_LINKED')
+    catalog['Artist'] = lt.newList('SINGLE_LINKED',
                                     cmpfunction=compareartist)
-    catalog['ArtworkArtist'] = lt.newList('ARRAY_LIST')
     return catalog
 
 # Funciones para agregar informacion al catalogo
