@@ -145,6 +145,12 @@ def compareartist (authorname1, author):
 def compareDates(Artist1, Artist2):
     return (int(Artist1['BeginDate']) > int(Artist2['BeginDate']))
 
+def cmpArtworkByDateAcquired(artwork1, artwork2): 
+    if artwork1['Date Acquired'] < artwork2['Date Acquired']:
+        return True
+    else:
+        return False
+
 # Funciones de ordenamiento
 
 def sortArtist(catalog):
