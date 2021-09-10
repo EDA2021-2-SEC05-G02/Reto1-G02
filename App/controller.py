@@ -85,17 +85,17 @@ def sortArtworkByDA(catalog):
 
 
 # Funciones de consulta sobre el catálogo
-def getLast3Artists(catalog):
+def getLast3(catalog):
     """
     Retorna los últimos 3 artistas
     """
-    return model.getLast3Artists(catalog)
+    return model.getLast3(catalog)
 
-def getLast3Atworks(catalog):
+def getFirts3(catalog):
     """
     Retorna los últimos 3 obras de arte
     """
-    return model.getLast3Atworks(catalog)
+    return model.getFirts3(catalog)
 
 def getConologicalArtist (catalog, beginDate, endDate):
     """

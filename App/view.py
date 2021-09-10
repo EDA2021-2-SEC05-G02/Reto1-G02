@@ -63,18 +63,18 @@ def loadData(catalog):
     """
     controller.loadData(catalog)
 
-def last3Artists(catalog):
+def last3(catalog):
     """
     Retorna los últimos 3 artistas registrados
     """
-    return controller.getLast3Artists(catalog)
+    return controller.getLast3(catalog)
      
 
-def last3Atworks(catalog):
+def first3(catalog):
     """
     Retorna los últimos 3 obras registradas
     """
-    return controller.getLast3Atworks(catalog)
+    return controller.getFirts3(catalog)
 
 def conologicalArtist (catalog, beginDate, endDate):
     """
@@ -103,12 +103,12 @@ while True:
         print('Artistas cargados: ' + str(lt.size(catalog['Artist'])))
 
         print("\nLos últimos 3 artistas son: ")
-        artist = last3Artists(catalog)
+        artist = last3(catalog['Artist'])
         for i in lt.iterator(artist):
             print(i , "\n")
 
         print("Las últimas 3 obras son: ")
-        art=last3Atworks(catalog)
+        art=last3(catalog['Artwork'])
         for i in lt.iterator(art):
             print(i , "\n")
         
@@ -125,10 +125,13 @@ while True:
         print("There are ", lt.size(ArtistasCrono), " artist born between", beginDate, " and " , endDate, "\n")
         print("The first and last 3 artist in range are...\n")
 
-        sub_list_first = lt.subList(ArtistasCrono, 1, 3)
-        for i in lt.iterator(sub_list_first):
+        first = first3(ArtistasCrono)
+        for i in lt.iterator(first):
             print(i , "\n")
         
+        last = last3(ArtistasCrono)
+        for i in lt.iterator(last):
+            print(i , "\n")
         #sub_list_last = lt.subList(ArtistasCrono, 223, 224)
         #for i in lt.iterator(sub_list_last):
         #    print(i , "\n")
