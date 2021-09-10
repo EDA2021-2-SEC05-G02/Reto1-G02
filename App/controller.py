@@ -77,6 +77,12 @@ def sortArtist(catalog):
     """
     model.sortArtist(catalog)
 
+def sortArtworkByDA(catalog):
+    """
+    Ordena los obras por Date Adquire
+    """
+    model.sortArtworkByDA(catalog)
+
 
 # Funciones de consulta sobre el catálogo
 def getLast3Artists(catalog):

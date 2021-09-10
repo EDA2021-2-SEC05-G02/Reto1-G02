@@ -29,7 +29,7 @@ import config as cf
 from DISClib.ADT import list as lt
 from DISClib.Algorithms.Sorting import shellsort as sa
 from DISClib.Algorithms.Sorting import insertionsort as ins
-from DISClib.Algorithms.Sorting import selectionsort as sel
+from DISClib.Algorithms.Sorting import quicksort as qui
 from DISClib.Algorithms.Sorting import mergesort as mer
 assert cf
 from datetime import datetime, date
@@ -161,7 +161,6 @@ def compareDates(Artist1, Artist2):
     return (int(Artist1['BeginDate']) < int(Artist2['BeginDate']))
 
 
-
 def cmpArtworkByDateAcquired(artwork1, artwork2): 
     if artwork1['Date Acquired'] < artwork2['Date Acquired']:
         return True
@@ -180,7 +179,7 @@ def sortArtwork(catalog, size, Sort_Type):
     sorted = None
     start = time.process_time()
     if Sort_Type == 1:
-        sorted = sel.sort(sub_list, cmpArtworkByDateAcquired)
+        sorted = qui.sort(sub_list, cmpArtworkByDateAcquired)
     elif Sort_Type == 2:
         sorted = ins.sort(sub_list, cmpArtworkByDateAcquired)
     elif Sort_Type == 3:

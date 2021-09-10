@@ -26,6 +26,13 @@ import controller
 from DISClib.ADT import list as lt
 assert cf
 
+""" 
+Utilizar el siguiente codigo en caso de que se alcance el limite de recursion y mande el 
+siguiente error “RecursionError: maximum recursion depth exceeded in 
+comparison”
+"""
+#default_limit = 1000 
+#sys.setrecursionlimit(default_limit*10) 
 
 """
 La vista se encarga de la interacción con el usuario
@@ -85,6 +92,10 @@ while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
+        print('Si desea mostrar el catalogo usando un tipo especifico de lista, observe las opciones a continuacion:')
+        print('1. Obtener el catalogo utilizando listas tipo SINGLE_LINKED')
+        print('2. Obtener el catalogo utilizando listas tipo ARRAY_LIST')
+        # Agregar seleccionar opcion
         print("Cargando información de los archivos ....\n")
         catalog = initCatalog()
         loadData(catalog)
@@ -125,6 +136,14 @@ while True:
 
     elif int(inputs[0]) == 3:
         print("Implementación en curso, vuelve luego ....")
+        print("Si desea obtener la lista de obras organizada por la fecha de adquision usando un algoritmo de organizacion, observe las opciones a continuacion:")
+        print("1. Organizar la lista usando Shellsort  ")
+        print("2. Organizar la lista usando Mergesort ")
+        print("3. Organizar la lista usando Insertionsort ")
+        print("4. Organizar la lista usando Quicksort ")
+        print('0. Atras')
+        orden = int(input('Seleccione una opcion: '))
+
     
     elif int(inputs[0]) == 4:
         print("Implementación en curso, vuelve luego ....")
