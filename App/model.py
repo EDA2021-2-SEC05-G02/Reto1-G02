@@ -135,6 +135,17 @@ def getLast3Artists(catalog):
         lt.addLast(lastres, last)
     return lastres
 
+def getConologicalArtist (catalog, beginDate, endDate):
+    #Mejor con busqueda binaria pero aun no se como implementarla
+    Artists = catalog['Artist']
+    BornInRange = lt.newList('SINGLE_LINKED')
+    for artista in lt.iterator(Artists):
+        if beginDate <= artista['BeginDate'] and endDate >= artista['BeginDate']:
+            lt.addLast(BornInRange, artista)
+    
+    BornInRangeSorted = sa.sort(BornInRange, compareDates)
+    return BornInRangeSorted
+
 # Funciones utilizadas para comparar elementos dentro de una lista
 
 def compareartist (authorname1, author):
@@ -143,9 +154,11 @@ def compareartist (authorname1, author):
     return -1
 
 def compareDates(Artist1, Artist2):
-    return (int(Artist1['BeginDate']) > int(Artist2['BeginDate']))
+    return (int(Artist1['BeginDate']) < int(Artist2['BeginDate']))
+
+
 
 # Funciones de ordenamiento
 
-def sortArtist(catalog):
-    sa.sort(catalog['Artist'], compareDates)
+def sortArtistByBeginDate(catalog):
+    sa.sort(catalog, compareDates)

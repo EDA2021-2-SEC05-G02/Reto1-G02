@@ -58,19 +58,22 @@ def loadData(catalog):
 
 def last3Artists(catalog):
     """
-    Imprime los últimos 3 artistas registrados
+    Retorna los últimos 3 artistas registrados
     """
-    artistas = controller.getLast3Artists(catalog)
-    for i in lt.iterator(artistas):
-        print(i, "\n") 
+    return controller.getLast3Artists(catalog)
+     
 
 def last3Atworks(catalog):
     """
-    Imprime los últimos 3 obras registradas
+    Retorna los últimos 3 obras registradas
     """
-    art = controller.getLast3Atworks(catalog)
-    for i in lt.iterator(art):
-        print(i , "\n") 
+    return controller.getLast3Atworks(catalog)
+
+def conologicalArtist (catalog, beginDate, endDate):
+    """
+    Retorna los artistas en orden cronologico
+    """
+    return controller.getConologicalArtist(catalog, beginDate, endDate)
     
 
 catalog = None
@@ -82,19 +85,43 @@ while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
-        print("Cargando información de los archivos ....")
+        print("Cargando información de los archivos ....\n")
         catalog = initCatalog()
         loadData(catalog)
         print('Obras de Arte cargadas: ' + str(lt.size(catalog['Artwork'])))
         print('Artistas cargados: ' + str(lt.size(catalog['Artist'])))
+
         print("\nLos últimos 3 artistas son: ")
-        last3Artists(catalog)
-        print("\nLas últimas 3 obras son: ")
-        last3Atworks(catalog)
+        artist = last3Artists(catalog)
+        for i in lt.iterator(artist):
+            print(i , "\n")
+
+        print("Las últimas 3 obras son: ")
+        art=last3Atworks(catalog)
+        for i in lt.iterator(art):
+            print(i , "\n")
         
 
     elif int(inputs[0]) == 2:
-        print("Implementación en curso, vuelve luego ....")
+        beginDate = int(input("Ingrese el año inicial: "))
+        endDate = int(input("Ingrese el año final: "))
+
+        print("="*15, " Req No. 1 Inputs ", "="*15)
+        print("Artist born between ", beginDate, " and " , endDate, "\n")
+        print("="*15, " Req No. 1 Answer ", "="*15)
+
+        ArtistasCrono = conologicalArtist(catalog, beginDate, endDate)
+        print("There are ", lt.size(ArtistasCrono), " artist born between", beginDate, " and " , endDate, "\n")
+        print("The first and last 3 artist in range are...\n")
+
+        sub_list_first = lt.subList(ArtistasCrono, 1, 3)
+        for i in lt.iterator(sub_list_first):
+            print(i , "\n")
+        
+        #sub_list_last = lt.subList(ArtistasCrono, 223, 224)
+        #for i in lt.iterator(sub_list_last):
+        #    print(i , "\n")
+
 
     elif int(inputs[0]) == 3:
         print("Implementación en curso, vuelve luego ....")

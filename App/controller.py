@@ -90,3 +90,10 @@ def getLast3Atworks(catalog):
     Retorna los últimos 3 obras de arte
     """
     return model.getLast3Atworks(catalog)
+
+def getConologicalArtist (catalog, beginDate, endDate):
+    """
+    Retorna los artistas en orden cronologico
+    """
+    return model.getConologicalArtist (catalog, beginDate, endDate)
+
