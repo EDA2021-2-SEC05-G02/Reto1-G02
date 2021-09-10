@@ -28,8 +28,12 @@
 import config as cf
 from DISClib.ADT import list as lt
 from DISClib.Algorithms.Sorting import shellsort as sa
+from DISClib.Algorithms.Sorting import insertionsort as ins
+from DISClib.Algorithms.Sorting import selectionsort as sel
+from DISClib.Algorithms.Sorting import mergesort as mer
 assert cf
 from datetime import datetime, date
+import time
 
 """
 Se define la estructura de un catálogo de videos. El catálogo tendrá dos listas, una para los videos, otra para las categorias de
@@ -158,7 +162,31 @@ def compareDates(Artist1, Artist2):
 
 
 
+def cmpArtworkByDateAcquired(artwork1, artwork2): 
+    if artwork1['Date Acquired'] < artwork2['Date Acquired']:
+        return True
+    else:
+        return False
+
 # Funciones de ordenamiento
 
-def sortArtistByBeginDate(catalog):
-    sa.sort(catalog, compareDates)
+def sortArtist(catalog):
+    sa.sort(catalog['Artist'], compareDates)
+
+
+def sortArtwork(catalog, size, Sort_Type):
+    sub_list = lt.subList(catalog['Artwork'], 1, size)
+    sub_list = sub_list.copy()
+    sorted = None
+    start = time.process_time()
+    if Sort_Type == 1:
+        sorted = sel.sort(sub_list, cmpArtworkByDateAcquired)
+    elif Sort_Type == 2:
+        sorted = ins.sort(sub_list, cmpArtworkByDateAcquired)
+    elif Sort_Type == 3:
+        sorted = sa.sort(sub_list, cmpArtworkByDateAcquired)
+    elif Sort_Type == 4:
+        sorted = mer.sort(sub_list, cmpArtworkByDateAcquired)
+    end = time.process_time()
+    time_mseg = (end - start)*1000
+    return time_mseg, sorted
