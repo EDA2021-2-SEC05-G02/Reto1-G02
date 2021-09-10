@@ -41,15 +41,15 @@ los mismos.
 """
 
 # Construccion de modelos
-def newCatalog():
+def newCatalog(tipo):
     """
     Inicializa el catálogo de Obras de arte.
     """
     catalog = {'Artwork': None,
                'Artist': None}
 
-    catalog['Artwork'] = lt.newList('SINGLE_LINKED')
-    catalog['Artist'] = lt.newList('SINGLE_LINKED',
+    catalog['Artwork'] = lt.newList(tipo)
+    catalog['Artist'] = lt.newList(tipo,
                                     cmpfunction=compareartist)
     return catalog
 
@@ -124,19 +124,18 @@ def newArtwork (ObjectID, Title, ConstituentID, Date, Medium, Dimensions, Credit
     
 # Funciones de consulta
 def getFirts3(catalog):
-    #atw = catalog['Artwork']
-    lastres = lt.newList('SINGLE_LINKED')
+    first3 = lt.newList('SINGLE_LINKED')
     for i in range(1,4):
         last = lt.getElement(catalog, i)
-        lt.addLast(lastres, last)
-    return lastres
+        lt.addLast(first3, last)
+    return first3
 
 def getLast3(catalog):
-    lastres = lt.newList('SINGLE_LINKED')
+    last3 = lt.newList('SINGLE_LINKED')
     for i in range(lt.size(catalog)-2,lt.size(catalog)+1):
         last = lt.getElement(catalog, i)
-        lt.addLast(lastres, last)
-    return lastres
+        lt.addLast(last3, last)
+    return last3
 
 def getConologicalArtist (catalog, beginDate, endDate):
     #Mejor con busqueda binaria pero aun no se como implementarla

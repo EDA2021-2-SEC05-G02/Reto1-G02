@@ -51,11 +51,11 @@ def printMenu():
     print("6- Transportar obras de un departamento")
     print("7- Proponer una nueva exposición en el museo")
 
-def initCatalog():
+def initCatalog(tipo):
     """
     Inicializa el catalogo del museo
     """
-    return controller.initCatalog()
+    return controller.initCatalog(tipo)
 
 def loadData(catalog):
     """
@@ -95,10 +95,15 @@ while True:
         print('Si desea mostrar el catalogo usando un tipo especifico de lista, observe las opciones a continuacion:')
         print('1. Obtener el catalogo utilizando listas tipo SINGLE_LINKED')
         print('2. Obtener el catalogo utilizando listas tipo ARRAY_LIST')
-        # Agregar seleccionar opcion
+
+        inp = input('Selecione una opción para continuar: ')
         print("Cargando información de los archivos ....\n")
-        catalog = initCatalog()
+        if int(inp) == 1:
+            catalog = initCatalog('SINGLE_LINKED')
+        else:
+            catalog = initCatalog('ARRAY_LIST')
         loadData(catalog)
+        
         print('Obras de Arte cargadas: ' + str(lt.size(catalog['Artwork'])))
         print('Artistas cargados: ' + str(lt.size(catalog['Artist'])))
 
@@ -132,9 +137,6 @@ while True:
         last = last3(ArtistasCrono)
         for i in lt.iterator(last):
             print(i , "\n")
-        #sub_list_last = lt.subList(ArtistasCrono, 223, 224)
-        #for i in lt.iterator(sub_list_last):
-        #    print(i , "\n")
 
 
     elif int(inputs[0]) == 3:
