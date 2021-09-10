@@ -123,19 +123,18 @@ def newArtwork (ObjectID, Title, ConstituentID, Date, Medium, Dimensions, Credit
     return artwork
     
 # Funciones de consulta
-def getLast3Atworks(catalog):
-    atw = catalog['Artwork']
+def getFirts3(catalog):
+    #atw = catalog['Artwork']
     lastres = lt.newList('SINGLE_LINKED')
-    for i in range(lt.size(atw)-2,lt.size(atw)+1):
-        last = lt.getElement(atw, i)
+    for i in range(1,4):
+        last = lt.getElement(catalog, i)
         lt.addLast(lastres, last)
     return lastres
 
-def getLast3Artists(catalog):
-    at = catalog['Artist']
+def getLast3(catalog):
     lastres = lt.newList('SINGLE_LINKED')
-    for i in range(lt.size(at)-2,lt.size(at)+1):
-        last = lt.getElement(at, i)
+    for i in range(lt.size(catalog)-2,lt.size(catalog)+1):
+        last = lt.getElement(catalog, i)
         lt.addLast(lastres, last)
     return lastres
 
@@ -147,7 +146,7 @@ def getConologicalArtist (catalog, beginDate, endDate):
         if beginDate <= artista['BeginDate'] and endDate >= artista['BeginDate']:
             lt.addLast(BornInRange, artista)
     
-    BornInRangeSorted = sa.sort(BornInRange, compareDates)
+    BornInRangeSorted = mer.sort(BornInRange, compareDates)
     return BornInRangeSorted
 
 # Funciones utilizadas para comparar elementos dentro de una lista
