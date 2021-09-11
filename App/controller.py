@@ -109,3 +109,6 @@ def getCronologicalArtwork (catalog, beginDate, endDate, Sort_Type):
     """
     return model.getCronologicalArtwork (catalog, beginDate, endDate, Sort_Type)
 
+def getArtworksPurchased (catalog):
+    return model.getArtworksPurchased(catalog)
+

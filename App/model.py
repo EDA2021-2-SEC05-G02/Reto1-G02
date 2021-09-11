@@ -172,6 +172,12 @@ def getCronologicalArtwork (catalog, beginDate, endDate, Sort_Type):
     
     return time, AcquiredInRange
 
+def getArtworksPurchased (catalog):
+    purchased = 0
+    for item in lt.iterator(catalog):
+        if "purchase" in item['CreditLine'].lower():
+            purchased += 1
+    return purchased
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 

@@ -89,6 +89,8 @@ def cronologicalArtwork (catalog, beginDate, endDate, Sort_Type):
     """
     return controller.getCronologicalArtwork(catalog, beginDate, endDate, Sort_Type)
 
+def ArtworksPurchased (catalog):
+    return controller.getArtworksPurchased(catalog)
 
 catalog = None
 
@@ -157,10 +159,10 @@ while True:
 
     elif int(inputs[0]) == 3:
         print("Si desea obtener la lista de obras organizada por la fecha de adquision usando un algoritmo de organizacion, observe las opciones a continuacion:")
-        print("1. Organizar la lista usando Shellsort  ")
-        print("2. Organizar la lista usando Mergesort ")
-        print("3. Organizar la lista usando Insertionsort ")
-        print("4. Organizar la lista usando Quicksort ")
+        print("1. Organizar la lista usando Quicksort  ")
+        print("2. Organizar la lista usando Insertionsort ")
+        print("3. Organizar la lista usando Shellsort ")
+        print("4. Organizar la lista usando Mergesort ")
         orden = int(input('Seleccione una opcion: '))
         if orden in [1,2,3,4]:
             firstY=int(input("Año incial: "))
@@ -177,7 +179,9 @@ while True:
             print("Artwork aquired between "+ str(first)+" and " +str(last)+ "\n")
             print("="*15, " Req No. 2 Answer ", "="*15)
             time, ObrasCrono = cronologicalArtwork(catalog, first, last, orden)
+            purchased = ArtworksPurchased(ObrasCrono)
             print("The MoMA acquired", lt.size(ObrasCrono), "unique pieces between", first, "and" , last, "\n")
+            print("With", "---" , "different artist and purchased", purchased, "of them")
             print("The first and last 3 artworks in the range are...\n")
 
             primeros = first3(ObrasCrono)
