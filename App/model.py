@@ -154,12 +154,12 @@ def getLast3(catalog):
 def getCronologicalArtist (catalog, beginDate, endDate, Sort_Type):
     #Mejor con busqueda binaria pero aun no se como implementarla
     Artists = catalog['Artist']
+    time, ArtistSorted = sortCatalog(Artists, lt.size(Artists), Sort_Type, cmpArtistByBeginDate)
     BornInRange = lt.newList('SINGLE_LINKED')
-    for artista in lt.iterator(Artists):
+    for artista in lt.iterator(ArtistSorted):
         if beginDate <= artista['BeginDate'] and endDate >= artista['BeginDate']:
             lt.addLast(BornInRange, artista)
-    BornInRangeSorted= sortCatalog(BornInRange, lt.size(BornInRange), Sort_Type, cmpArtistByBeginDate)
-    return BornInRangeSorted
+    return time, BornInRange
 
 def getCronologicalArtwork (catalog, beginDate, endDate, Sort_Type):
     #Mejor con busqueda binaria pero aun no se como implementarla

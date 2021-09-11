@@ -143,7 +143,8 @@ while True:
             print("="*15, " Req No. 1 Answer ", "="*15)
 
             time, ArtistasCrono = cronologicalArtist(catalog, beginDate, endDate, orden)
-            print("There are ", lt.size(ArtistasCrono), " artist born between", beginDate, " and " , endDate, "\n")
+            print("The time it took to sort the artist catalog with the selected algorithm was:", time ,"mseg\n")
+            print("There are ", lt.size(ArtistasCrono), " artist born between", beginDate, " and " , endDate)
             print("The first and last 3 artist in the range are...\n")
 
             first = first3(ArtistasCrono)
@@ -180,7 +181,8 @@ while True:
             print("="*15, " Req No. 2 Answer ", "="*15)
             time, ObrasCrono = cronologicalArtwork(catalog, first, last, orden)
             purchased = ArtworksPurchased(ObrasCrono)
-            print("The MoMA acquired", lt.size(ObrasCrono), "unique pieces between", first, "and" , last, "\n")
+            print("The time it took to sort the artwork catalog with the selected algorithm was:", time ,"mseg\n")
+            print("The MoMA acquired", lt.size(ObrasCrono), "unique pieces between", first, "and" , last)
             print("With", "---" , "different artist and purchased", purchased, "of them")
             print("The first and last 3 artworks in the range are...\n")
 
