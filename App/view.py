@@ -25,14 +25,15 @@ import sys
 import controller
 from DISClib.ADT import list as lt
 assert cf
+import datetime as dt
 
 """ 
 Utilizar el siguiente codigo en caso de que se alcance el limite de recursion y mande el 
 siguiente error “RecursionError: maximum recursion depth exceeded in 
 comparison”
 """
-#default_limit = 1000 
-#sys.setrecursionlimit(default_limit*10) 
+default_limit = 1000 
+sys.setrecursionlimit(default_limit*100) 
 
 """
 La vista se encarga de la interacción con el usuario
@@ -76,12 +77,18 @@ def first3(catalog):
     """
     return controller.getFirts3(catalog)
 
-def conologicalArtist (catalog, beginDate, endDate):
+def cronologicalArtist (catalog, beginDate, endDate, Sort_Type):
     """
     Retorna los artistas en orden cronologico
     """
-    return controller.getConologicalArtist(catalog, beginDate, endDate)
-    
+    return controller.getCronologicalArtist(catalog, beginDate, endDate, Sort_Type)
+
+def cronologicalArtwork (catalog, beginDate, endDate, Sort_Type):
+    """
+    Retorna los artistas en orden cronologico
+    """
+    return controller.getCronologicalArtwork(catalog, beginDate, endDate, Sort_Type)
+
 
 catalog = None
 
@@ -119,37 +126,71 @@ while True:
         
 
     elif int(inputs[0]) == 2:
-        beginDate = int(input("Ingrese el año inicial: "))
-        endDate = int(input("Ingrese el año final: "))
+        print("Si desea obtener la lista de obras organizada por la fecha de adquision usando un algoritmo de organizacion, observe las opciones a continuacion:")
+        print("1. Organizar la lista usando Quicksort")
+        print("2. Organizar la lista usando Insertionsort")
+        print("3. Organizar la lista usando Shellsort")
+        print("4. Organizar la lista usando Mergesort")
+        orden = int(input('Seleccione una opcion: '))
+        if orden in [1,2,3,4]:
+            beginDate = int(input("Ingrese el año inicial: "))
+            endDate = int(input("Ingrese el año final: "))
 
-        print("="*15, " Req No. 1 Inputs ", "="*15)
-        print("Artist born between ", beginDate, " and " , endDate, "\n")
-        print("="*15, " Req No. 1 Answer ", "="*15)
+            print("="*15, " Req No. 1 Inputs ", "="*15)
+            print("Artist born between ", beginDate, " and " , endDate, "\n")
+            print("="*15, " Req No. 1 Answer ", "="*15)
 
-        ArtistasCrono = conologicalArtist(catalog, beginDate, endDate)
-        print("There are ", lt.size(ArtistasCrono), " artist born between", beginDate, " and " , endDate, "\n")
-        print("The first and last 3 artist in range are...\n")
+            time, ArtistasCrono = cronologicalArtist(catalog, beginDate, endDate, orden)
+            print("There are ", lt.size(ArtistasCrono), " artist born between", beginDate, " and " , endDate, "\n")
+            print("The first and last 3 artist in the range are...\n")
 
-        first = first3(ArtistasCrono)
-        for i in lt.iterator(first):
-            print(i , "\n")
-        
-        last = last3(ArtistasCrono)
-        for i in lt.iterator(last):
-            print(i , "\n")
+            first = first3(ArtistasCrono)
+            for i in lt.iterator(first):
+                print(i , "\n")
+            
+            last = last3(ArtistasCrono)
+            for i in lt.iterator(last):
+                print(i , "\n")
+        else:
+            print('La opción seleccionada no es valida ....')
 
 
     elif int(inputs[0]) == 3:
-        print("Implementación en curso, vuelve luego ....")
         print("Si desea obtener la lista de obras organizada por la fecha de adquision usando un algoritmo de organizacion, observe las opciones a continuacion:")
         print("1. Organizar la lista usando Shellsort  ")
         print("2. Organizar la lista usando Mergesort ")
         print("3. Organizar la lista usando Insertionsort ")
         print("4. Organizar la lista usando Quicksort ")
-        print('0. Atras')
         orden = int(input('Seleccione una opcion: '))
+        if orden in [1,2,3,4]:
+            firstY=int(input("Año incial: "))
+            firstM=int(input("Mes incial: "))
+            firstD=int(input("Dia inicial: "))
+            first=dt.date(firstY,firstM,firstD)
 
-    
+            lastY=int(input("Año final: "))
+            lastM=int(input("Mes final: "))
+            lastD=int(input("Dia final: "))
+            last=dt.date(lastY,lastM,lastD)
+
+            print("="*15, " Req No. 2 Inputs ", "="*15)
+            print("Artwork aquired between "+ str(first)+" and " +str(last)+ "\n")
+            print("="*15, " Req No. 2 Answer ", "="*15)
+            time, ObrasCrono = cronologicalArtwork(catalog, first, last, orden)
+            print("The MoMA acquired", lt.size(ObrasCrono), "unique pieces between", first, "and" , last, "\n")
+            print("The first and last 3 artworks in the range are...\n")
+
+            primeros = first3(ObrasCrono)
+            for i in lt.iterator(primeros):
+                print(i , "\n")
+        
+            ultimos = last3(ObrasCrono)
+            for i in lt.iterator(ultimos):
+                print(i , "\n")
+        else:
+            print('La opción seleccionada no es valida ....')
+
+            
     elif int(inputs[0]) == 4:
         print("Implementación en curso, vuelve luego ....")
     

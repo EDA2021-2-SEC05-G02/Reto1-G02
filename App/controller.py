@@ -97,9 +97,15 @@ def getFirts3(catalog):
     """
     return model.getFirts3(catalog)
 
-def getConologicalArtist (catalog, beginDate, endDate):
+def getCronologicalArtist (catalog, beginDate, endDate, Sort_Type):
     """
     Retorna los artistas en orden cronologico
     """
-    return model.getConologicalArtist (catalog, beginDate, endDate)
+    return model.getCronologicalArtist (catalog, beginDate, endDate, Sort_Type)
+
+def getCronologicalArtwork (catalog, beginDate, endDate, Sort_Type):
+    """
+    Retorna los artistas en orden cronologico
+    """
+    return model.getCronologicalArtwork (catalog, beginDate, endDate, Sort_Type)
 

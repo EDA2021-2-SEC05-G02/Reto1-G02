@@ -32,7 +32,7 @@ from DISClib.Algorithms.Sorting import insertionsort as ins
 from DISClib.Algorithms.Sorting import quicksort as qui
 from DISClib.Algorithms.Sorting import mergesort as mer
 assert cf
-from datetime import datetime, date
+import datetime as dt
 import time
 
 """
@@ -87,11 +87,20 @@ def newArtist(ConstituentID, DisplayName, ArtistBio, Nationality, Gender,
     artist['DisplayName'] = DisplayName
     artist['ArtistBio'] = ArtistBio
     artist['Nationality'] = Nationality
+    if Nationality == "":
+        artist['Nationality'] = "Unknown"
     artist['Gender'] = Gender
+    if Gender == "":
+        artist['Gender'] = "Unknown"
     artist['BeginDate'] = int(BeginDate)
     artist['EndDate'] = int(EndDate)
     artist['Wiki QID'] = WikiQID
+    if WikiQID == "":
+        artist['Wiki QID'] = "Unknown"
     artist['ULAN'] = ULAN
+    if ULAN == "":
+        artist['ULAN'] = "Unknown"
+    
     return artist
 
 def newArtwork (ObjectID, Title, ConstituentID, Date, Medium, Dimensions, CreditLine,
@@ -117,9 +126,14 @@ def newArtwork (ObjectID, Title, ConstituentID, Date, Medium, Dimensions, Credit
     artwork['Classification'] = Classification
     artwork['Department'] = Department
     if DateAcquired != "":
-        artwork['Date Acquired'] = datetime.strptime(str(DateAcquired), '%Y-%m-%d').date()
+        date = DateAcquired.split("-")
+        artwork['Date Acquired'] = dt.date(int(date[0]),int(date[1]),int(date[2]))
+    else:
+        artwork['Date Acquired'] = dt.date(1,1,1)
     artwork['Cataloged'] = Cataloged
     artwork['URL'] = URL
+    if URL == "":
+        artwork['URL'] = "Unknown"
     return artwork
     
 # Funciones de consulta
@@ -137,16 +151,27 @@ def getLast3(catalog):
         lt.addLast(last3, last)
     return last3
 
-def getConologicalArtist (catalog, beginDate, endDate):
+def getCronologicalArtist (catalog, beginDate, endDate, Sort_Type):
     #Mejor con busqueda binaria pero aun no se como implementarla
     Artists = catalog['Artist']
     BornInRange = lt.newList('SINGLE_LINKED')
     for artista in lt.iterator(Artists):
         if beginDate <= artista['BeginDate'] and endDate >= artista['BeginDate']:
             lt.addLast(BornInRange, artista)
-    
-    BornInRangeSorted = mer.sort(BornInRange, compareDates)
+    BornInRangeSorted= sortCatalog(BornInRange, lt.size(BornInRange), Sort_Type, cmpArtistByBeginDate)
     return BornInRangeSorted
+
+def getCronologicalArtwork (catalog, beginDate, endDate, Sort_Type):
+    #Mejor con busqueda binaria pero aun no se como implementarla
+    Artworks = catalog['Artwork']
+    time, ArtworksSorted = sortCatalog(Artworks, lt.size(Artworks), Sort_Type, cmpArtworkByDateAcquired)
+    AcquiredInRange = lt.newList('SINGLE_LINKED')
+    for artwork in lt.iterator(ArtworksSorted):
+        if beginDate <= artwork['Date Acquired'] and endDate >= artwork['Date Acquired']:
+            lt.addLast(AcquiredInRange, artwork)
+    
+    return time, AcquiredInRange
+
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 
@@ -155,35 +180,28 @@ def compareartist (authorname1, author):
         return 0
     return -1
 
-def compareDates(Artist1, Artist2):
+def cmpArtistByBeginDate(Artist1, Artist2):
     return (int(Artist1['BeginDate']) < int(Artist2['BeginDate']))
 
 
 def cmpArtworkByDateAcquired(artwork1, artwork2): 
-    if artwork1['Date Acquired'] < artwork2['Date Acquired']:
-        return True
-    else:
-        return False
+    return artwork1['Date Acquired'] < artwork2['Date Acquired']
 
 # Funciones de ordenamiento
 
-def sortArtist(catalog):
-    sa.sort(catalog['Artist'], compareDates)
-
-
-def sortArtwork(catalog, size, Sort_Type):
-    sub_list = lt.subList(catalog['Artwork'], 1, size)
+def sortCatalog(catalog, size, Sort_Type, cmp):
+    sub_list = lt.subList(catalog, 1, size)
     sub_list = sub_list.copy()
     sorted = None
     start = time.process_time()
     if Sort_Type == 1:
-        sorted = qui.sort(sub_list, cmpArtworkByDateAcquired)
+        sorted = qui.sort(sub_list, cmp)
     elif Sort_Type == 2:
-        sorted = ins.sort(sub_list, cmpArtworkByDateAcquired)
+        sorted = ins.sort(sub_list, cmp)
     elif Sort_Type == 3:
-        sorted = sa.sort(sub_list, cmpArtworkByDateAcquired)
+        sorted = sa.sort(sub_list, cmp)
     elif Sort_Type == 4:
-        sorted = mer.sort(sub_list, cmpArtworkByDateAcquired)
+        sorted = mer.sort(sub_list, cmp)
     end = time.process_time()
     time_mseg = (end - start)*1000
     return time_mseg, sorted
