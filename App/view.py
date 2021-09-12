@@ -154,13 +154,15 @@ while True:
             x.field_names = ["ConstituentID", "DisplayName", "BeginDate", "Nationality", "Gender", "ArtistBio", "Wiki QID", "ULAN"]
             first = first3(ArtistasCrono)
             for i in lt.iterator(first):
-                print(i , "\n")
-                x.add_row([ i["ConstituentID"], i["DisplayName"],i["BeginDate"], i["Nationality"], i["Gender"], i["ArtistBio"], i["Wiki QID"], i["ULAN"] ] )
+                x.add_row([ i["ConstituentID"], i["DisplayName"], i["BeginDate"], i["Nationality"], i["Gender"], i["ArtistBio"], i["Wiki QID"], i["ULAN"]])
             
             last = last3(ArtistasCrono)
             for i in lt.iterator(last):
-                print(i , "\n")
-                print(x.add_row([ i["ConstituentID"], i["DisplayName"],i["BeginDate"], i["Nationality"], i["Gender"], i["ArtistBio"], i["Wiki QID"], i["ULAN"] ] ))
+                x.add_row([ i["ConstituentID"], i["DisplayName"], i["BeginDate"], i["Nationality"], i["Gender"], i["ArtistBio"], i["Wiki QID"], i["ULAN"]])
+            
+            x.align = "l"
+            x.align["ConstituentID"] = "r"
+            x.align["BeginDate"] = "r"            
             print(x)
                 
         else:
