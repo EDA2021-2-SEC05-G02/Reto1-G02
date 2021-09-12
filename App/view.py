@@ -26,6 +26,7 @@ import controller
 from DISClib.ADT import list as lt
 assert cf
 import datetime as dt
+from prettytable import PrettyTable
 
 """ 
 Utilizar el siguiente codigo en caso de que se alcance el limite de recursion y mande el 
@@ -120,6 +121,8 @@ while True:
         artist = last3(catalog['Artist'])
         for i in lt.iterator(artist):
             print(i , "\n")
+            
+            
 
         print("Las últimas 3 obras son: ")
         art=last3(catalog['Artwork'])
@@ -146,14 +149,20 @@ while True:
             print("The time it took to sort the artist catalog with the selected algorithm was:", time ,"mseg\n")
             print("There are ", lt.size(ArtistasCrono), " artist born between", beginDate, " and " , endDate)
             print("The first and last 3 artist in the range are...\n")
-
+            
+            x = PrettyTable()
+            x.field_names = ["ConstituentID", "DisplayName", "BeginDate", "Nationality", "Gender", "ArtistBio", "Wiki QID", "ULAN"]
             first = first3(ArtistasCrono)
             for i in lt.iterator(first):
                 print(i , "\n")
+                x.add_row([ i["ConstituentID"], i["DisplayName"],i["BeginDate"], i["Nationality"], i["Gender"], i["ArtistBio"], i["Wiki QID"], i["ULAN"] ] )
             
             last = last3(ArtistasCrono)
             for i in lt.iterator(last):
                 print(i , "\n")
+                print(x.add_row([ i["ConstituentID"], i["DisplayName"],i["BeginDate"], i["Nationality"], i["Gender"], i["ArtistBio"], i["Wiki QID"], i["ULAN"] ] ))
+            print(x)
+                
         else:
             print('La opción seleccionada no es valida ....')
 
