@@ -71,17 +71,8 @@ def loadArtist(catalog):
 
 # Funciones de ordenamiento
 
-def sortArtist(catalog):
-    """
-    Ordena los libros por average_rating
-    """
-    model.sortArtist(catalog)
-
-def sortArtworkByDA(catalog):
-    """
-    Ordena los obras por Date Adquire
-    """
-    model.sortArtworkByDA(catalog)
+def sortArtworksByDA(catalog, size, orden):
+    return model.sortArtworksByDA(catalog, size, orden)
 
 
 # Funciones de consulta sobre el catálogo
@@ -123,4 +114,6 @@ def getArtworkNationality(catalog):
     Retorna las obras por nacionalidad de los artistas
     """
     return model.getArtworkNationality(catalog)
+
+
 

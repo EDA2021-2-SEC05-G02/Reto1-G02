@@ -52,7 +52,7 @@ def printMenu():
     print("5- Clasificar obras por la nacionalidad de sus creadores")
     print("6- Transportar obras de un departamento")
     print("7- Proponer una nueva exposición en el museo")
-
+    print("8- Lab4 - Elige el tamaño de la muestra de adquisiciones que se va ordenar cronológicamente")
 def initCatalog(tipo):
     """
     Inicializa el catalogo del museo
@@ -77,21 +77,6 @@ def first3(catalog):
     Retorna los últimos 3 obras registradas
     """
     return controller.getFirts3(catalog)
-
-def cronologicalArtist (catalog, beginDate, endDate, Sort_Type):
-    """
-    Retorna los artistas en orden cronologico
-    """
-    return controller.getCronologicalArtist(catalog, beginDate, endDate, Sort_Type)
-
-def cronologicalArtwork (catalog, beginDate, endDate, Sort_Type):
-    """
-    Retorna los artistas en orden cronologico
-    """
-    return controller.getCronologicalArtwork(catalog, beginDate, endDate, Sort_Type)
-
-def ArtworksPurchased (catalog):
-    return controller.getArtworksPurchased(catalog)
 
 catalog = None
 
@@ -145,7 +130,7 @@ while True:
             print("Artist born between ", beginDate, " and " , endDate, "\n")
             print("="*15, " Req No. 1 Answer ", "="*15)
 
-            time, ArtistasCrono = cronologicalArtist(catalog, beginDate, endDate, orden)
+            time, ArtistasCrono = controller.getCronologicalArtist(catalog, beginDate, endDate, orden)
             print("The time it took to sort the artist catalog with the selected algorithm was:", time ,"mseg\n")
             print("There are ", lt.size(ArtistasCrono), " artist born between", beginDate, " and " , endDate)
             print("The first and last 3 artist in the range are...\n")
@@ -190,8 +175,8 @@ while True:
             print("="*15, " Req No. 2 Inputs ", "="*15)
             print("Artwork aquired between "+ str(first)+" and " +str(last)+ "\n")
             print("="*15, " Req No. 2 Answer ", "="*15)
-            time, ObrasCrono = cronologicalArtwork(catalog, first, last, orden)
-            purchased = ArtworksPurchased(ObrasCrono)
+            time, ObrasCrono = controller.getCronologicalArtwork(catalog, first, last, orden)
+            purchased = controller.getArtworksPurchased(ObrasCrono)
             print("The time it took to sort the artwork catalog with the selected algorithm was:", time ,"mseg\n")
             print("The MoMA acquired", lt.size(ObrasCrono), "unique pieces between", first, "and" , last)
             print("With", "---" , "different artist and purchased", purchased, "of them")
@@ -221,6 +206,21 @@ while True:
 
     elif int(inputs[0]) == 7:
         print("Implementación en curso, vuelve luego ....")
+    
+    elif int(inputs[0]) == 8:
+        print("Si desea obtener la lista de obras organizada por la fecha de adquision usando un algoritmo de organizacion, observe las opciones a continuacion:")
+        print("1. Organizar la lista usando Quicksort  ")
+        print("2. Organizar la lista usando Insertionsort ")
+        print("3. Organizar la lista usando Shellsort ")
+        print("4. Organizar la lista usando Mergesort ")
+        orden = int(input('Seleccione una opcion: '))
+        if orden in [1,2,3,4]:
+            sizeTotal = lt.size(catalog['Artwork'])
+            size = int(input("Indique tamaño de la muestra: "))
+            if size <= sizeTotal:
+                time, muestraSorted = controller.sortArtworksByDA(catalog['Artwork'], size, orden)
+                print("Para la muestra de", size, " elementos, el tiempo (mseg) es: ",
+                                          str(time))
 
     else:
         sys.exit(0)
