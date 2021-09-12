@@ -179,6 +179,30 @@ def getArtworksPurchased (catalog):
             purchased += 1
     return purchased
 
+# Funcion 3
+
+def getArtworkTecnique(catalog):
+    pass
+
+
+
+
+
+
+# Funcion 4
+
+def getArtworkNationality(catalog):
+    pass
+
+
+
+
+
+
+
+
+
+
 # Funciones utilizadas para comparar elementos dentro de una lista
 
 def compareartist (authorname1, author):
@@ -193,8 +217,10 @@ def cmpArtistByBeginDate(Artist1, Artist2):
 def cmpArtworkByDateAcquired(artwork1, artwork2): 
     return artwork1['Date Acquired'] < artwork2['Date Acquired']
 
+#  def cmpArtistByTecnique (Artist1, Artist2):
+
 def cmpArtistByNationality(Artist1, Artist2):
-    return (int(Artist1['Nationality']) > int(Artist2['Nationality']))
+    return (Artist1['Nationality']) > (Artist2['Nationality'])
 
 # Funciones de ordenamiento
 
