@@ -135,21 +135,41 @@ def newArtwork (ObjectID, Title, ConstituentID, Date, Medium, Dimensions, Credit
     if URL == "":
         artwork['URL'] = "Unknown"
     return artwork
-    
-# Funciones de consulta
-def getFirts3(catalog):
-    first3 = lt.newList('SINGLE_LINKED')
-    for i in range(1,4):
-        last = lt.getElement(catalog, i)
-        lt.addLast(first3, last)
-    return first3
 
-def getLast3(catalog):
-    last3 = lt.newList('SINGLE_LINKED')
-    for i in range(lt.size(catalog)-2,lt.size(catalog)+1):
-        last = lt.getElement(catalog, i)
-        lt.addLast(last3, last)
-    return last3
+def changeDateUnknown(catalog):
+    """
+    Cambiar la fecha 0001-01-01 por Unknown de una lista ordenada
+    """
+    pos = 1
+    done = False 
+    while pos < lt.size(catalog)and not done:
+        i=lt.firstElement(catalog)
+        if i['Date Acquired'] == dt.date(1,1,1):
+            i['Date Acquired'] = "Unknown"
+            lt.addLast(catalog, i)
+            lt.removeFirst(catalog)
+        else:
+            done = True
+        pos+=1
+    return catalog
+
+
+# Funciones de consulta
+def getFirts(catalog, num):
+    first = lt.newList('SINGLE_LINKED')
+    rangmax = num +1
+    for i in range(1, rangmax):
+        element = lt.getElement(catalog, i)
+        lt.addLast(first, element)
+    return first
+
+def getLast(catalog, num):
+    last = lt.newList('SINGLE_LINKED')
+    rangmin = num-1
+    for i in range((lt.size(catalog)-rangmin),lt.size(catalog)+1):
+        element = lt.getElement(catalog, i)
+        lt.addLast(last, element)
+    return last
 
 def getCronologicalArtist (catalog, beginDate, endDate, Sort_Type):
     #Mejor con busqueda binaria pero aun no se como implementarla

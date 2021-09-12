@@ -65,31 +65,18 @@ def loadData(catalog):
     """
     controller.loadData(catalog)
 
-def last3(catalog):
-    """
-    Retorna los últimos 3 artistas registrados
-    """
-    return controller.getLast3(catalog)
-     
-
-def first3(catalog):
-    """
-    Retorna los últimos 3 obras registradas
-    """
-    return controller.getFirts3(catalog)
-
-def printSortResults(sorted, sample=10): 
-    """
-    Retorna las 10 primeras obras por fecha de adquision.
-    """
-    size = lt.size(sorted) 
-    if size > sample: 
-        print("Las primeras ", sample, " obras ordenadas fecha de adquisición son:") 
-        i=1 
-        while i <= sample: 
-            artwork = lt.getElement(sorted,i) 
-            print('Titulo: ' + artwork['Title']  + ' Fecha de Adquisición: ' + artwork['Date Acquired']) 
-            i+=1 
+# def printSortResults(sorted, sample=10): 
+#     """
+#     Retorna las 10 primeras obras por fecha de adquision.
+#     """
+#     size = lt.size(sorted) 
+#     if size > sample: 
+#         print("Las primeras ", sample, " obras ordenadas fecha de adquisición son:") 
+#         i=1 
+#         while i <= sample: 
+#             artwork = lt.getElement(sorted,i) 
+#             print('Titulo: ' + artwork['Title']  + ' Fecha de Adquisición: ' + artwork['Date Acquired']) 
+#             i+=1 
 
 catalog = None
 
@@ -116,14 +103,12 @@ while True:
         print('Artistas cargados: ' + str(lt.size(catalog['Artist'])))
 
         print("\nLos últimos 3 artistas son: ")
-        artist = last3(catalog['Artist'])
+        artist = controller.getLast(catalog['Artist'], 3)
         for i in lt.iterator(artist):
             print(i , "\n")
             
-            
-
         print("Las últimas 3 obras son: ")
-        art=last3(catalog['Artwork'])
+        art = controller.getLast(catalog['Artwork'], 3)
         for i in lt.iterator(art):
             print(i , "\n")
         
@@ -150,11 +135,11 @@ while True:
             
             x = PrettyTable()
             x.field_names = ["ConstituentID", "DisplayName", "BeginDate", "Nationality", "Gender", "ArtistBio", "Wiki QID", "ULAN"]
-            first = first3(ArtistasCrono)
+            first = controller.getFirts(ArtistasCrono, 3)
             for i in lt.iterator(first):
                 x.add_row([ i["ConstituentID"], i["DisplayName"], i["BeginDate"], i["Nationality"], i["Gender"], i["ArtistBio"], i["Wiki QID"], i["ULAN"]])
             
-            last = last3(ArtistasCrono)
+            last = controller.getLast(ArtistasCrono, 3)
             for i in lt.iterator(last):
                 x.add_row([ i["ConstituentID"], i["DisplayName"], i["BeginDate"], i["Nationality"], i["Gender"], i["ArtistBio"], i["Wiki QID"], i["ULAN"]])
             
@@ -195,11 +180,11 @@ while True:
             print("With", "---" , "different artist and purchased", purchased, "of them")
             print("The first and last 3 artworks in the range are...\n")
 
-            primeros = first3(ObrasCrono)
+            primeros = controller.getFirts(ObrasCrono, 3)
             for i in lt.iterator(primeros):
                 print(i , "\n")
         
-            ultimos = last3(ObrasCrono)
+            ultimos = controller.getLast(ObrasCrono, 3)
             for i in lt.iterator(ultimos):
                 print(i , "\n")
         else:
@@ -234,6 +219,21 @@ while True:
                 time, muestraSorted = controller.sortArtworksByDA(catalog['Artwork'], size, orden)
                 print("Para la muestra de", size, " elementos, el tiempo (mseg) es: ",
                                           str(time))
+
+                sorted_noUnknown = controller.changeDateUnknown(muestraSorted)
+                                          
+                if size < 10:
+                    print("Las lista de obras del tamaño", size, "ordenada por fecha de adquisición es:")
+                    primeros = controller.getFirts(sorted_noUnknown, size)
+                else:
+                    print("Las primeras 10 obras ordenadas fecha de adquisición son:")
+                    primeros = controller.getFirts(sorted_noUnknown, 10)  
+                x = PrettyTable()
+                x.field_names = ["Title", "Date Acquired"]
+                for i in lt.iterator(primeros):
+                    x.add_row([ i["Title"], i["Date Acquired"]])
+                x.align = "l"
+                print(x)
 
     else:
         sys.exit(0)

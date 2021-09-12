@@ -76,17 +76,17 @@ def sortArtworksByDA(catalog, size, orden):
 
 
 # Funciones de consulta sobre el catálogo
-def getLast3(catalog):
+def getLast(catalog, num):
     """
-    Retorna los últimos 3 artistas
+    Retorna los últimos num artistas
     """
-    return model.getLast3(catalog)
+    return model.getLast(catalog, num)
 
-def getFirts3(catalog):
+def getFirts(catalog, num):
     """
-    Retorna los últimos 3 obras de arte
+    Retorna los últimos num obras de arte
     """
-    return model.getFirts3(catalog)
+    return model.getFirts(catalog, num)
 
 def getCronologicalArtist (catalog, beginDate, endDate, Sort_Type):
     """
@@ -114,6 +114,9 @@ def getArtworkNationality(catalog):
     Retorna las obras por nacionalidad de los artistas
     """
     return model.getArtworkNationality(catalog)
+
+def changeDateUnknown(catalog):
+    return model.changeDateUnknown(catalog)
 
 
 
