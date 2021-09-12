@@ -193,6 +193,9 @@ def cmpArtistByBeginDate(Artist1, Artist2):
 def cmpArtworkByDateAcquired(artwork1, artwork2): 
     return artwork1['Date Acquired'] < artwork2['Date Acquired']
 
+def cmpArtistByNationality(Artist1, Artist2):
+    return (int(Artist1['Nationality']) > int(Artist2['Nationality']))
+
 # Funciones de ordenamiento
 
 def sortCatalog(catalog, size, Sort_Type, cmp):
