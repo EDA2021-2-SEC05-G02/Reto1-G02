@@ -78,6 +78,19 @@ def first3(catalog):
     """
     return controller.getFirts3(catalog)
 
+def printSortResults(sorted, sample=10): 
+    """
+    Retorna las 10 primeras obras por fecha de adquision.
+    """
+    size = lt.size(sorted) 
+    if size > sample: 
+        print("Las primeras ", sample, " obras ordenadas fecha de adquisición son:") 
+        i=1 
+        while i <= sample: 
+            artwork = lt.getElement(sorted,i) 
+            print('Titulo: ' + artwork['Title']  + ' Fecha de Adquisición: ' + artwork['Date Acquired']) 
+            i+=1 
+
 catalog = None
 
 """
