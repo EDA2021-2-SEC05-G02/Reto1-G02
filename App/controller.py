@@ -112,3 +112,15 @@ def getCronologicalArtwork (catalog, beginDate, endDate, Sort_Type):
 def getArtworksPurchased (catalog):
     return model.getArtworksPurchased(catalog)
 
+def getArtworkTecnique(catalog, artist):
+    """
+    Retorna las obras de un artista por tecnica
+    """
+    return model.getArtworkTecnique(catalog, artist)
+
+def getArtworkNationality(catalog):
+    """
+    Retorna las obras por nacionalidad de los artistas
+    """
+    return model.getArtworkNationality(catalog)
+

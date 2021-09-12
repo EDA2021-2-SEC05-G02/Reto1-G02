@@ -181,7 +181,7 @@ def getArtworksPurchased (catalog):
 
 # Funcion 3
 
-def getArtworkTecnique(catalog):
+def getArtworkTecnique(catalog, artist):
     pass
 
 
