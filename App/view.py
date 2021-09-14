@@ -65,18 +65,6 @@ def loadData(catalog):
     """
     controller.loadData(catalog)
 
-# def printSortResults(sorted, sample=10): 
-#     """
-#     Retorna las 10 primeras obras por fecha de adquision.
-#     """
-#     size = lt.size(sorted) 
-#     if size > sample: 
-#         print("Las primeras ", sample, " obras ordenadas fecha de adquisición son:") 
-#         i=1 
-#         while i <= sample: 
-#             artwork = lt.getElement(sorted,i) 
-#             print('Titulo: ' + artwork['Title']  + ' Fecha de Adquisición: ' + artwork['Date Acquired']) 
-#             i+=1 
 
 catalog = None
 
@@ -214,20 +202,21 @@ while True:
         orden = int(input('Seleccione una opcion: '))
         if orden in [1,2,3,4]:
             sizeTotal = lt.size(catalog['Artwork'])
-            size = int(input("Indique tamaño de la muestra: "))
+            #size = int(input("Indique tamaño de la muestra: "))
+            size = lt.size(catalog['Artwork'])
             if size <= sizeTotal:
                 time, muestraSorted = controller.sortArtworksByDA(catalog['Artwork'], size, orden)
                 print("Para la muestra de", size, " elementos, el tiempo (mseg) es: ",
                                           str(time))
 
-                sorted_noUnknown = controller.changeDateUnknown(muestraSorted)
+                #sorted_noUnknown = controller.changeDateUnknown(muestraSorted)
                                           
                 if size < 10:
                     print("Las lista de obras del tamaño", size, "ordenada por fecha de adquisición es:")
-                    primeros = controller.getFirts(sorted_noUnknown, size)
+                    primeros = controller.getFirts(muestraSorted, size)
                 else:
                     print("Las primeras 10 obras ordenadas fecha de adquisición son:")
-                    primeros = controller.getFirts(sorted_noUnknown, 10)  
+                    primeros = controller.getFirts(muestraSorted, 10)  
                 x = PrettyTable()
                 x.field_names = ["Title", "Date Acquired"]
                 for i in lt.iterator(primeros):
