@@ -71,8 +71,6 @@ def loadArtist(catalog):
 
 # Funciones de ordenamiento
 
-def sortArtworksByDA(catalog, size, orden):
-    return model.sortArtworksByDA(catalog, size, orden)
 
 
 # Funciones de consulta sobre el catálogo

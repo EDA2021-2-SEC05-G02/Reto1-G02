@@ -83,7 +83,7 @@ def newArtist(ConstituentID, DisplayName, ArtistBio, Nationality, Gender,
     artist = {'ConstituentID': None, 'DisplayName': "", 'ArtistBio': "",
                 'Nationality': "", 'Gender': "", 'BeginDate': None, 
                 'EndDate': None, 'Wiki QID': "", 'ULAN': ""}
-    artist['ConstituentID'] = int(ConstituentID.replace('[', '').replace(']',''))
+    artist['ConstituentID'] = int(ConstituentID)
     artist['DisplayName'] = DisplayName
     artist['ArtistBio'] = ArtistBio
     artist['Nationality'] = Nationality
@@ -106,11 +106,11 @@ def newArtist(ConstituentID, DisplayName, ArtistBio, Nationality, Gender,
 def newArtwork (ObjectID, Title, ConstituentID, Date, Medium, Dimensions, CreditLine,
                 AccessionNumber, Classification, Department, DateAcquired, Cataloged,
                 URL):
-    artwork = {'ObjectID': None, 'Title': "", 'ConstituentID': None,
-                'Date': "", 'Medium': "", 'Dimensions': "", 'CreditLine': "", 
-                'AccessionNumber': None, 'Classification': "", 
-                'Department': "", 'Date Acquired': "", 'Cataloged': "",
-                'URL': ""}
+    artwork = {'ObjectID': None, 'Title': None, 'ConstituentID': None,
+                'Date': None, 'Medium': None, 'Dimensions': None, 'CreditLine': None, 
+                'AccessionNumber': None, 'Classification': None, 
+                'Department': None, 'Date Acquired': None, 'Cataloged': None,
+                'URL': None}
 
     constID_str = ConstituentID.replace('[', '').replace(']','').split(",")
     constID_int = [int(x) for x in constID_str]
@@ -120,7 +120,11 @@ def newArtwork (ObjectID, Title, ConstituentID, Date, Medium, Dimensions, Credit
     artwork['ConstituentID'] = constID_int
     artwork['Date'] = Date
     artwork['Medium'] = Medium
+    if Medium == "":
+        artwork['Medium'] = "Unknown"
     artwork['Dimensions'] = Dimensions
+    if Dimensions == "":
+        artwork['Dimensions'] = "Unknown"
     artwork['CreditLine'] = CreditLine
     artwork['AccessionNumber'] = AccessionNumber
     artwork['Classification'] = Classification
@@ -135,24 +139,6 @@ def newArtwork (ObjectID, Title, ConstituentID, Date, Medium, Dimensions, Credit
     if URL == "":
         artwork['URL'] = "Unknown"
     return artwork
-
-def changeDateUnknown(catalog):
-    """
-    Cambiar la fecha 0001-01-01 por Unknown de una lista ordenada
-    """
-    pos = 1
-    done = False 
-    while pos < lt.size(catalog)and not done:
-        i=lt.firstElement(catalog)
-        if i['Date Acquired'] == dt.date(1,1,1):
-            i['Date Acquired'] = "Unknown"
-            lt.addLast(catalog, i)
-            lt.removeFirst(catalog)
-        else:
-            done = True
-        pos+=1
-    return catalog
-
 
 # Funciones de consulta
 def getFirts(catalog, num):
@@ -172,7 +158,6 @@ def getLast(catalog, num):
     return last
 
 def getCronologicalArtist (catalog, beginDate, endDate, Sort_Type):
-    #Mejor con busqueda binaria pero aun no se como implementarla
     Artists = catalog['Artist']
     time, ArtistSorted = sortCatalog(Artists, lt.size(Artists), Sort_Type, cmpArtistByBeginDate)
     BornInRange = lt.newList('SINGLE_LINKED')
@@ -182,7 +167,6 @@ def getCronologicalArtist (catalog, beginDate, endDate, Sort_Type):
     return time, BornInRange
 
 def getCronologicalArtwork (catalog, beginDate, endDate, Sort_Type):
-    #Mejor con busqueda binaria pero aun no se como implementarla
     Artworks = catalog['Artwork']
     time, ArtworksSorted = sortCatalog(Artworks, lt.size(Artworks), Sort_Type, cmpArtworkByDateAcquired)
     AcquiredInRange = lt.newList('SINGLE_LINKED')
@@ -243,23 +227,6 @@ def cmpArtistByNationality(Artist1, Artist2):
     return (Artist1['Nationality']) > (Artist2['Nationality'])
 
 # Funciones de ordenamiento
-
-def sortArtworksByDA(catalog, size, Sort_Type):
-    sub_list = lt.subList(catalog, 1, size)
-    sub_list = sub_list.copy()
-    sorted = None
-    start = time.process_time()
-    if Sort_Type == 1:
-        sorted = qui.sort(sub_list, cmpArtworkByDateAcquired)
-    elif Sort_Type == 2:
-        sorted = ins.sort(sub_list, cmpArtworkByDateAcquired)
-    elif Sort_Type == 3:
-        sorted = sa.sort(sub_list, cmpArtworkByDateAcquired)
-    elif Sort_Type == 4:
-        sorted = mer.sort(sub_list, cmpArtworkByDateAcquired)
-    end = time.process_time()
-    time_mseg = (end - start)*1000
-    return time_mseg, sorted
 
 def sortCatalog(catalog, size, Sort_Type, cmp):
     sub_list = lt.subList(catalog, 1, size)
