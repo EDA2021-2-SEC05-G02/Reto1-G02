@@ -194,7 +194,7 @@ while True:
         print("Implementación en curso, vuelve luego ....")
     
     elif int(inputs[0]) == 8:
-        print("Si desea obtener la lista de obras organizada por la fecha de adquision usando un algoritmo de organizacion, observe las opciones a continuacion:")
+        print("Si desea obtener la lista de obras organi1zada por la fecha de adquision usando un algoritmo de organizacion, observe las opciones a continuacion:")
         print("1. Organizar la lista usando Quicksort  ")
         print("2. Organizar la lista usando Insertionsort ")
         print("3. Organizar la lista usando Shellsort ")
@@ -210,7 +210,7 @@ while True:
                                           str(time))
 
                 #sorted_noUnknown = controller.changeDateUnknown(muestraSorted)
-                                          
+                #        
                 if size < 10:
                     print("Las lista de obras del tamaño", size, "ordenada por fecha de adquisición es:")
                     primeros = controller.getFirts(muestraSorted, size)
