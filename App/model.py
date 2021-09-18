@@ -195,8 +195,30 @@ def getArtworkTecnique(catalog, artist):
 
 # Funcion 4
 
-def getArtworkNationality(catalog):
+def getArtworkNationality(catalog, Sort_Type):
+
+    """
+    1. Dic 1: Crear un diccionario para obras {} 
+    2. Dic 2: Crear un diccionario para artistas {}
+    3. Iterar por los artistas
+    4. Llenar diccionario id: Valor todo el artista, llave: ConstutentID
+    5. Iterar por las obras
+    6. Sacar ConstutentID de las obras
+    7. Sacar el artista usando el diccionario #2
+    8. Sacar la nacionalidad del Artista 
+    9. Llenar diccionario #1 con la llave Nacionalidad y Lista de Obras
+    9.1 Crear Lista Si la llave no existe el diccionario junto al valor iterado
+    9.2 Anadir a Lista si la llave existe
+    10. Crear Funcion de Comparacion para Dic 1
+    11. Sortear Dic1 por Longitud de las Obras y Mostrar TOP 10 LLaves
+    12. Mostrar 3 primeros y ultimos 3 artistas con la nacionalidad en el primer lugar
+
+    """
+
+    artowrksbynt = {}
+    artistsbyid = {}
     pass
+
 
 
 
