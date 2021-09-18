@@ -52,7 +52,8 @@ def printMenu():
     print("5- Clasificar obras por la nacionalidad de sus creadores")
     print("6- Transportar obras de un departamento")
     print("7- Proponer una nueva exposición en el museo")
-    print("8- Lab4 - Elige el tamaño de la muestra de adquisiciones que se va ordenar cronológicamente")
+    
+
 def initCatalog(tipo):
     """
     Inicializa el catalogo del museo
@@ -65,6 +66,41 @@ def loadData(catalog):
     """
     controller.loadData(catalog)
 
+def printArtistTable(artist):
+    x = PrettyTable()
+    x.field_names = ["ConstituentID", "DisplayName",
+                    "BeginDate", "Nationality", 
+                    "Gender", "ArtistBio", 
+                    "Wiki QID", "ULAN"]
+
+    for i in lt.iterator(artist):
+        x.add_row([ i["ConstituentID"], i["DisplayName"], 
+                    i["BeginDate"], i["Nationality"], 
+                    i["Gender"], i["ArtistBio"], 
+                    i["Wiki QID"], i["ULAN"]])
+    x.align = "l"
+    x.align["ConstituentID"] = "r"
+    x.align["BeginDate"] = "r"
+    print(x)
+
+def printArtworkTable(artwork):
+    x = PrettyTable()
+    x.field_names = ["ObjectID", "Title", 
+                    "ConstituentID", "Medium", 
+                    "Dimensions", "Date", 
+                    "DateAcquired", "URL"]
+
+    x._max_width = {"Title":18,"ConstituentID":18, "Medium":18, "Dimensions":18, "URL":15}
+
+    for i in lt.iterator(artwork):
+        x.add_row([ i["ObjectID"], i["Title"], 
+                    i["ConstituentID"], i["Medium"], 
+                    i["Dimensions"], i["Date"], 
+                    i["Date Acquired"], i["URL"]])
+    x.align = "l"
+    x.align["ObjectID"] = "r"
+    x.align["Date"] = "r" 
+    print(x)
 
 catalog = None
 
@@ -92,23 +128,11 @@ while True:
 
         print("\nLos últimos 3 artistas son: ")
         artist = controller.getLast(catalog['Artist'], 3)
+        printArtistTable(artist)
 
-        x = PrettyTable()
-        x.field_names = ["ConstituentID", "DisplayName", "BeginDate", "Nationality", "Gender", "ArtistBio", "Wiki QID", "ULAN"]
-        for i in lt.iterator(artist):
-            x.add_row([ i["ConstituentID"], i["DisplayName"], i["BeginDate"], i["Nationality"], i["Gender"], i["ArtistBio"], i["Wiki QID"], i["ULAN"]])
-        x.align = "l"
-        print(x)
-
-        x.clear()
         print("Las últimas 3 obras son: ")
         art = controller.getLast(catalog['Artwork'], 3)
-        x.field_names = ["ObjectID", "Title", "ConstituentID", "Medium", "Dimensions", "Date", "DateAcquired", "URL"]
-        x._max_width = {"Title":20,"ConstituentID":20, "Medium":20, "Dimensions":20, "URL":20}
-        for i in lt.iterator(art):
-            x.add_row([ i["ObjectID"], i["Title"], i["ConstituentID"], i["Medium"], i["Dimensions"], i["Date"], i["Date Acquired"], i["URL"]])
-        x.align = "l"
-        print(x)
+        printArtworkTable(art)
         
 
     elif int(inputs[0]) == 2:
@@ -128,41 +152,21 @@ while True:
 
             time, ArtistasCrono = controller.getCronologicalArtist(catalog, beginDate, endDate, orden)
             print("The time it took to sort the artist catalog with the selected algorithm was:", time ,"mseg\n")
-            print("There are ", lt.size(ArtistasCrono), " artist born between", beginDate, " and " , endDate)
+            print("There are ", lt.size(ArtistasCrono), " artist born between", beginDate, " and " , endDate,"\n")
 
             if lt.size(ArtistasCrono) != 0:
                 if lt.size(ArtistasCrono) >= 6:
-                    print("The first and last 3 artist in the range are...\n")
-                    
-                    x = PrettyTable()
-                    x.field_names = ["ConstituentID", "DisplayName", "BeginDate", "Nationality", "Gender", "ArtistBio", "Wiki QID", "ULAN"]
+                    print("The first 3 artist in the range are...")
                     first = controller.getFirts(ArtistasCrono, 3)
-                    for i in lt.iterator(first):
-                        x.add_row([ i["ConstituentID"], i["DisplayName"], i["BeginDate"], i["Nationality"], i["Gender"], i["ArtistBio"], i["Wiki QID"], i["ULAN"]])
-                    
+                    printArtistTable(first)
+                    print("\nThe last 3 artist in the range are...")
                     last = controller.getLast(ArtistasCrono, 3)
-                    for i in lt.iterator(last):
-                        x.add_row([ i["ConstituentID"], i["DisplayName"], i["BeginDate"], i["Nationality"], i["Gender"], i["ArtistBio"], i["Wiki QID"], i["ULAN"]])
-                    
-                    x.align = "l"
-                    x.align["ConstituentID"] = "r"
-                    x.align["BeginDate"] = "r"            
-                    print(x)
+                    printArtistTable(last)
                 else:
-                    print("The artist in the range are...\n")
-                    
-                    x = PrettyTable()
-                    x.field_names = ["ConstituentID", "DisplayName", "BeginDate", "Nationality", "Gender", "ArtistBio", "Wiki QID", "ULAN"]
-                    for i in lt.iterator(ArtistasCrono):
-                        x.add_row([ i["ConstituentID"], i["DisplayName"], i["BeginDate"], i["Nationality"], i["Gender"], i["ArtistBio"], i["Wiki QID"], i["ULAN"]])
-                    
-                    x.align = "l"
-                    x.align["ConstituentID"] = "r"
-                    x.align["BeginDate"] = "r"            
-                    print(x)
-                
+                    print("The artist in the range are...")
+                    printArtistTable(ArtistasCrono)
         else:
-            print('La opción seleccionada no es valida ....')
+            print('\nLa opción seleccionada no es valida ....')
 
 
     elif int(inputs[0]) == 3:
@@ -189,42 +193,20 @@ while True:
             time, ObrasCrono = controller.getCronologicalArtwork(catalog, first, last, orden)
             purchased = controller.getArtworksPurchased(ObrasCrono)
             print("The time it took to sort the artwork catalog with the selected algorithm was:", time ,"mseg\n")
-            
+            print("The MoMA acquired", lt.size(ObrasCrono), "unique pieces between", first, "and" , last)
+            print("Of which", purchased, "were purchased\n")
             if lt.size(ObrasCrono)!= 0:
-                print("The MoMA acquired", lt.size(ObrasCrono), "unique pieces between", first, "and" , last)
-                print("With", "---" , "different artist and purchased", purchased, "of them")
                 if lt.size(ObrasCrono) >= 6:
-                    print("The first and last 3 artworks in the range are...\n")
+                    print("The first 3 artworks in the range are...")
                     primeros = controller.getFirts(ObrasCrono, 3)
+                    printArtworkTable(primeros)
+
+                    print("\nThe last 3 artist in the range are...")  
                     ultimos = controller.getLast(ObrasCrono, 3)
-                    x = PrettyTable()
-                    x.field_names = ["ObjectID", "Title", "ConstituentID", "Medium", "Dimensions", "Date", "DateAcquired", "URL"]
-                    x._max_width = {"Title":18,"ConstituentID":18, "Medium":26, "Dimensions":18, "URL":16}
-                    if lt.size(primeros) != 0:
-                        for i in lt.iterator(primeros):
-                            x.add_row([ i["ObjectID"], i["Title"], i["ConstituentID"], i["Medium"], i["Dimensions"], i["Date"], i["Date Acquired"], i["URL"]])
-                        if lt.size(ultimos) != 0:
-                            for i in lt.iterator(ultimos):
-                                x.add_row([ i["ObjectID"], i["Title"], i["ConstituentID"], i["Medium"], i["Dimensions"], i["Date"], i["Date Acquired"], i["URL"]])
-                    
-
-                        x.align = "l"
-                        x.align["ObjectID"] = "r"
-                        x.align["Date"] = "r" 
-                        print(x)
+                    printArtworkTable(ultimos)  
                 else:
-                    print("The", lt.size(ObrasCrono), "artworks in the range are...\n")
-                    x = PrettyTable()
-                    x.field_names = ["ObjectID", "Title", "ConstituentID", "Medium", "Dimensions", "Date", "DateAcquired", "URL"]
-                    x._max_width = {"Title":18,"ConstituentID":18, "Medium":26, "Dimensions":18, "URL":16}
-                    for i in lt.iterator(ObrasCrono):
-                        x.add_row([ i["ObjectID"], i["Title"], i["ConstituentID"], i["Medium"], i["Dimensions"], i["Date"], i["Date Acquired"], i["URL"]])
-                  
-
-                    x.align = "l"
-                    x.align["ObjectID"] = "r"
-                    x.align["Date"] = "r" 
-                    print(x)
+                    print("The artworks in the range are...")
+                    printArtworkTable(ObrasCrono)                  
 
         else:
             print('La opción seleccionada no es valida ....')
@@ -242,33 +224,6 @@ while True:
     elif int(inputs[0]) == 7:
         print("Implementación en curso, vuelve luego ....")
     
-    elif int(inputs[0]) == 8:
-        print("Si desea obtener la lista de obras organi1zada por la fecha de adquision usando un algoritmo de organizacion, observe las opciones a continuacion:")
-        print("1. Organizar la lista usando Quicksort  ")
-        print("2. Organizar la lista usando Insertionsort ")
-        print("3. Organizar la lista usando Shellsort ")
-        print("4. Organizar la lista usando Mergesort ")
-        orden = int(input('Seleccione una opcion: '))
-        if orden in [1,2,3,4]:
-            sizeTotal = lt.size(catalog['Artwork'])
-            size = int(input("Indique tamaño de la muestra: "))
-            if size <= sizeTotal:
-                time, muestraSorted = controller.sortArtworksByDA(catalog['Artwork'], size, orden)
-                print("Para la muestra de", size, " elementos, el tiempo (mseg) es: ",
-                                          str(time))                                          
-                if size < 10:
-                    print("Las lista de obras del tamaño", size, "ordenada por fecha de adquisición es:")
-                    primeros = controller.getFirts(muestraSorted, size)
-                else:
-                    print("Las primeras 10 obras ordenadas fecha de adquisición son:")
-                    primeros = controller.getFirts(muestraSorted, 10)  
-                x = PrettyTable()
-                x.field_names = ["Title", "Date Acquired"]
-                for i in lt.iterator(primeros):
-                    x.add_row([ i["Title"], i["Date Acquired"]])
-                x.align = "l"
-                print(x)
-
     else:
         sys.exit(0)
 sys.exit(0)
