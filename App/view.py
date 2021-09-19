@@ -216,7 +216,7 @@ while True:
         print("Implementación en curso, vuelve luego ....")
 
     elif int(inputs[0]) == 5:
-        print("Implementación en curso, vuelve luego ....")
+        print(controller.getArtworkNationality(catalog))
 
     elif int(inputs[0]) == 6:
         print("Implementación en curso, vuelve luego ....")
