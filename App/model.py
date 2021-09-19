@@ -25,6 +25,7 @@
  """
 
 
+from DISClib.DataStructures.arraylist import newList
 import config as cf
 from DISClib.ADT import list as lt
 from DISClib.Algorithms.Sorting import shellsort as sa
@@ -213,9 +214,10 @@ def getArtistTechnique(catalog):
         if Technique[medium] > top1:
             top1 = Technique[medium]
             topMedium = medium
-        
-    
+
     return Technique, topMedium
+
+
 
 
 

@@ -102,6 +102,26 @@ def printArtworkTable(artwork):
     x.align["Date"] = "r" 
     print(x)
 
+def printMediumTable(artwork, medium):
+    x = PrettyTable()
+    x.field_names = ["ObjectID", "Title", 
+                    "ConstituentID", "Medium", 
+                    "Dimensions", "Date", 
+                    "DateAcquired", "URL"]
+
+    x._max_width = {"Title":18,"ConstituentID":18, "Medium":18, "Dimensions":18, "URL":15}
+
+    for i in lt.iterator(artwork):
+        if i["Medium"] == medium:
+            x.add_row([ i["ObjectID"], i["Title"], 
+                        i["ConstituentID"], i["Medium"], 
+                        i["Dimensions"], i["Date"], 
+                        i["Date Acquired"], i["URL"]])
+    x.align = "l"
+    x.align["ObjectID"] = "r"
+    x.align["Date"] = "r" 
+    print(x)
+
 catalog = None
 
 """
@@ -236,8 +256,13 @@ while True:
             else:
                 print("Her/his Medium/Technique are:")
                 print(x)
-
-
+            print("\nHis/her most used Medium/Technique is:", topMedium , "with", Technique[topMedium], "pieces.")
+            
+            if Technique[topMedium] >= 3:
+                print("A sample of 3",topMedium,"from the collection are:")
+            else:
+                print("The",Technique[topMedium],"works of",topMedium,"from the collection are:")
+            printMediumTable(artworksOfArtist, topMedium)
 
     elif int(inputs[0]) == 5:
         print("Implementación en curso, vuelve luego ....")
