@@ -227,8 +227,8 @@ def getArtworkNationality(catalog, Sort_Type):
     
     sortedNationality = sortCatalog(Artworks, None, Sort_Type, cmpArtistByNationality)
     # Implementar en el view() el paso 12
-    
     pass
+    # Utilizar funcion de mostrar los tres primeros y los tres ultimos
 
 
 # Funcion 5
