@@ -47,12 +47,11 @@ def loadData(catalog):
     """
     loadArtist(catalog)
     loadArtwork(catalog)
-    #sortArtist(catalog)
     
 
 def loadArtwork(catalog):
     """
-    Carga los archivos de las obras de arte y se agrega a la lista de obras de arte
+    Carga los archivos de los Artworks y se agrega a la lista de obras de arte
     """
     Artworkfile = cf.data_dir + 'Artworks-utf8-small.csv'
     input_file = csv.DictReader(open(Artworkfile, encoding='utf-8'))
@@ -62,7 +61,7 @@ def loadArtwork(catalog):
 
 def loadArtist(catalog):
     """
-    Carga los archivos de loas artistas y se agrega a la lista de autores
+    Carga los archivos de los Artist y se agrega a la lista de artistas
     """
     Artistfile = cf.data_dir + 'Artists-utf8-small.csv'
     input_file = csv.DictReader(open(Artistfile, encoding='utf-8'))
@@ -71,41 +70,45 @@ def loadArtist(catalog):
 
 # Funciones de ordenamiento
 
-
-
 # Funciones de consulta sobre el catálogo
 def getLast(catalog, num):
     """
-    Retorna los últimos num artistas
+    Retorna los últimos num artistas/obras
     """
     return model.getLast(catalog, num)
 
 def getFirts(catalog, num):
     """
-    Retorna los últimos num obras de arte
+    Retorna los primeros num artistas/obras
     """
     return model.getFirts(catalog, num)
 
 def getCronologicalArtist (catalog, beginDate, endDate, Sort_Type):
     """
-    Retorna los artistas en orden cronologico
+    Retorna los artistas de un rango dado en orden cronologico
     """
     return model.getCronologicalArtist (catalog, beginDate, endDate, Sort_Type)
 
 def getCronologicalArtwork (catalog, beginDate, endDate, Sort_Type):
     """
-    Retorna los artistas en orden cronologico
+    Retorna las obras adquiridas de un rango dado en orden cronologico
     """
     return model.getCronologicalArtwork (catalog, beginDate, endDate, Sort_Type)
 
 def getArtworksPurchased (catalog):
+    """
+    Retorna el numero de obras que fueron compradas
+    """
     return model.getArtworksPurchased(catalog)
 
-def getArtworkTecnique(catalog, artist):
+def getArtistsArtwork(catalog, artistId):
     """
     Retorna las obras de un artista por tecnica
     """
-    return model.getArtworkTecnique(catalog, artist)
+    return model.getArtistsArtwork(catalog, artistId)
+
+def getArtistTechnique(catalog):
+    return model.getArtistTechnique(catalog)
 
 def getArtworkNationality(catalog):
     """
@@ -113,8 +116,9 @@ def getArtworkNationality(catalog):
     """
     return model.getArtworkNationality(catalog)
 
-def changeDateUnknown(catalog):
-    return model.changeDateUnknown(catalog)
+def getArtistInfo(catalog, artistName):
+    return model.getArtistInfo(catalog, artistName)
+
 
 
 
