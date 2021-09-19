@@ -224,15 +224,15 @@ def getArtistTechnique(catalog):
 
 # Funcion 4
 
-def getArtworkNationality(catalog, Sort_Type):
+def getArtworkNationality(catalog):
 
     """
     1. Dic 1: Crear un diccionario para obras {} - Check
     2. Dic 2: Crear un diccionario para artistas {} - Check
     3. Iterar por los artistas - Check
-    4. Llenar diccionario id: Valor todo el artista, llave: ConstutentID - Pendiente
+    4. Llenar diccionario id: Valor todo el artista, llave: ConstutentID - Check
     5. Iterar por las obras -Check
-    6. Sacar ConstutentID de las obras - Pendiente
+    6. Sacar ConstutentID de las obras - Check
     7. Sacar el artista usando el diccionario #2 - Pendiente
     8. Sacar la nacionalidad del Artista - Pendiente
     9. Llenar diccionario #1 con la llave Nacionalidad y Lista de Obras - Pendiente
@@ -241,25 +241,21 @@ def getArtworkNationality(catalog, Sort_Type):
     10. Crear Funcion de Comparacion para Dic 1 
     10.1 Crear Lista de del diccionario para poder organizarla, teniendo en cuenta que las funciones del reto no funcionan con diccionarios
     11. Sortear Dic1 por Longitud de las Obras y Mostrar TOP 10 LLaves - Imcomplete
-    12. Mostrar 3 primeros y ultimos 3 artistas con la nacionalidad en el primer lugar - Pendiente
+    12. Mostrar 3 primeros y ultimos 3 artistas con la nacionalidad en el primer lugar - 
 
     """
     Artists = catalog['Artist']
     Artworks = catalog['Artwork']
-    # Hacer una lista mas pequena para iterar
-    artistsbyid = {}
     artowrksbynt = {}
+    artistsbyid = {}
+    const = lt.newList('ARRAY_LIST')
     for item in lt.iterator(Artists):
-        artistsbyid[item] = item['ConstituentID']
-    for times in lt.iterator(Artworks):
-        pass
-    
-    sortedNationality = sortCatalog(Artworks, None, Sort_Type, cmpArtistByNationality)
-    # Implementar en el view() el paso 12
-    pass
-    # Utilizar funcion de mostrar los tres primeros y los tres ultimos
+        artistsbyid[item['ConstituentID']] = item 
 
+    for con in lt.iterator(Artworks):
+        lt.addLast(const, con['ConstituentID'])
 
+    return artistsbyid
 # Funcion 5
 """
 1. Hacer un diccionario o lista para iterar por los departamentos
@@ -292,11 +288,6 @@ def cmpArtistByBeginDate(Artist1, Artist2):
 
 def cmpArtworkByDateAcquired(artwork1, artwork2): 
     return artwork1['Date Acquired'] < artwork2['Date Acquired']
-
-#  def cmpArtistByTecnique (Artist1, Artist2):
-
-def cmpArtistByNationality(Artist1, Artist2):
-    return (Artist1['Nationality']) > (Artist2['Nationality'])
 
 # Funciones de ordenamiento
 
