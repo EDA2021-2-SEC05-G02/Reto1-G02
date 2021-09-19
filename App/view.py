@@ -214,10 +214,30 @@ while True:
             
     elif int(inputs[0]) == 4:
         artistName= input("Ingrese el nombre de la/el artista: ")
-        artist = catalog['Artist']
         artist_info = controller.getArtistInfo(catalog, artistName)
-        Id = artist_info['ConstituentID']
-        artworksOfArtist = controller.getArtistsArtwork(catalog, Id)
+        if artist_info != None:
+            Id = artist_info['ConstituentID']
+            artworksOfArtist = controller.getArtistsArtwork(catalog, Id)
+            Technique, topMedium = controller.getArtistTechnique(artworksOfArtist)
+            print("="*15, " Req No. 2 Inputs ", "="*15)
+            print("Examine the work of the artist named: "+artistName+"\n")
+            print("="*15, " Req No. 3 Answer ", "="*15)
+            print(artistName, " with MoMA ID",Id, "has",lt.size(artworksOfArtist), "pieces in her/his name at the museum.")
+            print("There are" ,len(Technique), "different mediums/techniques in her/his work.\n")
+            x=PrettyTable()
+            x.field_names = ["Medium Name", "Count"]
+            for i in Technique.keys():
+                x.add_row([i, Technique[i]])
+            x.sortby = "Count"
+            x.reversesort = True
+            if len(Technique) > 5:
+                print("Her/his top 5 Medium/Technique are")
+                print(x.get_string(start=0, end=5))
+            else:
+                print("Her/his Medium/Technique are:")
+                print(x)
+
+
 
     elif int(inputs[0]) == 5:
         print("Implementación en curso, vuelve luego ....")

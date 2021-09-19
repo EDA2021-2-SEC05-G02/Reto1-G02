@@ -107,6 +107,9 @@ def getArtistsArtwork(catalog, artistId):
     """
     return model.getArtistsArtwork(catalog, artistId)
 
+def getArtistTechnique(catalog):
+    return model.getArtistTechnique(catalog)
+
 def getArtworkNationality(catalog):
     """
     Retorna las obras por nacionalidad de los artistas

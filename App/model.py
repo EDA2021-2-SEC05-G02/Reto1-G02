@@ -193,8 +193,29 @@ def getArtistInfo(catalog, artistName):
     return info
 
 def getArtistsArtwork(catalog, artistID):
-    pass
+    artwork = catalog['Artwork']
+    ArtistsArtwork = lt.newList('ARRAY_LIST')
+    for i in lt.iterator(artwork):
+        if artistID in i['ConstituentID']:
+            lt.addLast(ArtistsArtwork, i)
+    return ArtistsArtwork
 
+def getArtistTechnique(catalog):
+    Technique = {}
+    top1 = 0
+    topMedium = None
+    for i in lt.iterator(catalog):
+        medium = i["Medium"]
+                
+        veces = Technique.get(medium,0)
+                
+        Technique[medium] = veces +1                
+        if Technique[medium] > top1:
+            top1 = Technique[medium]
+            topMedium = medium
+        
+    
+    return Technique, topMedium
 
 
 
