@@ -61,7 +61,10 @@ def addArtwork(catalog, artwork):
                     artwork['Date'],artwork['Medium'],artwork['Dimensions'],
                     artwork['CreditLine'],artwork['AccessionNumber'],artwork['Classification'],
                     artwork['Department'],artwork['DateAcquired'],artwork['Cataloged'],
-                    artwork['URL'],)
+                    artwork['URL'],artwork['Circumference (cm)'],artwork['Depth (cm)'],
+                    artwork['Diameter (cm)'],artwork['Height (cm)'],artwork['Length (cm)'],
+                    artwork['Weight (kg)'],artwork['Width (cm)'],artwork['Seat Height (cm)'],
+                    artwork['Duration (sec.)'])
 
     lt.addLast(catalog['Artwork'], a)
 
@@ -81,9 +84,7 @@ def newArtist(ConstituentID, DisplayName, ArtistBio, Nationality, Gender,
     Crea una nueva estructura para modelar los libros de
     un autor y su promedio de ratings
     """
-    artist = {'ConstituentID': None, 'DisplayName': "", 'ArtistBio': "",
-                'Nationality': "", 'Gender': "", 'BeginDate': None, 
-                'EndDate': None, 'Wiki QID': "", 'ULAN': ""}
+    artist = {}
     artist['ConstituentID'] = int(ConstituentID)
     artist['DisplayName'] = DisplayName
     artist['ArtistBio'] = ArtistBio
@@ -106,16 +107,13 @@ def newArtist(ConstituentID, DisplayName, ArtistBio, Nationality, Gender,
 
 def newArtwork (ObjectID, Title, ConstituentID, Date, Medium, Dimensions, CreditLine,
                 AccessionNumber, Classification, Department, DateAcquired, Cataloged,
-                URL):
-    artwork = {'ObjectID': None, 'Title': None, 'ConstituentID': None,
-                'Date': None, 'Medium': None, 'Dimensions': None, 'CreditLine': None, 
-                'AccessionNumber': None, 'Classification': None, 
-                'Department': None, 'Date Acquired': None, 'Cataloged': None,
-                'URL': None}
-
+                URL, Circumference, Depth, Diameter, Height, Length, Weight, Width,
+                SeatHeight, Duration):
+        
     constID_str = ConstituentID.replace('[', '').replace(']','').split(",")
     constID_int = [int(x) for x in constID_str]
 
+    artwork = {}
     artwork['ObjectID'] = int(ObjectID.replace('[', '').replace(']',''))
     artwork['Title'] = Title
     artwork['ConstituentID'] = constID_int
@@ -139,6 +137,33 @@ def newArtwork (ObjectID, Title, ConstituentID, Date, Medium, Dimensions, Credit
     artwork['URL'] = URL
     if URL == "":
         artwork['URL'] = "Unknown"
+    artwork['Circumference'] = Circumference
+    if Circumference == "":
+        artwork['Circumference'] = "Unknown"
+    artwork['Depth'] = Depth
+    if Depth == "":
+        artwork['Depth'] = "Unknown"
+    artwork['Diameter'] = Diameter
+    if Diameter == "":
+        artwork['Diameter'] = "Unknown"
+    artwork['Height'] = Height
+    if Height == "":
+        artwork['Height'] = "Unknown"
+    artwork['Length'] = Length
+    if Length == "":
+        artwork['Length'] = "Unknown"
+    artwork['Weight'] = Weight
+    if Weight == "":
+        artwork['Weight'] = "Unknown"
+    artwork['Width'] = Width
+    if Width == "":
+        artwork['Width'] = "Unknown"
+    artwork['SeatHeight'] = SeatHeight
+    if SeatHeight == "":
+        artwork['SeatHeight'] = "Unknown"
+    artwork['Duration'] = Duration
+    if Duration == "":
+        artwork['Duration'] = "Unknown"
     return artwork
 
 # Funciones de consulta
