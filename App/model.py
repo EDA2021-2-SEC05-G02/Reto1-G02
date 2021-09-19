@@ -158,24 +158,20 @@ def getLast(catalog, num):
         lt.addLast(last, element)
     return last
 
-def getCronologicalArtist (catalog, beginDate, endDate, Sort_Type):
-    Artists = catalog['Artist']
-    time, ArtistSorted = sortCatalog(Artists, lt.size(Artists), Sort_Type, cmpArtistByBeginDate)
+def getCronologicalArtist (sortedArtist_BDate, beginDate, endDate):
     BornInRange = lt.newList('SINGLE_LINKED')
-    for artista in lt.iterator(ArtistSorted):
+    for artista in lt.iterator(sortedArtist_BDate):
         if beginDate <= artista['BeginDate'] and endDate >= artista['BeginDate']:
             lt.addLast(BornInRange, artista)
-    return time, BornInRange
+    return BornInRange
 
-def getCronologicalArtwork (catalog, beginDate, endDate, Sort_Type):
-    Artworks = catalog['Artwork']
-    time, ArtworksSorted = sortCatalog(Artworks, lt.size(Artworks), Sort_Type, cmpArtworkByDateAcquired)
+def getCronologicalArtwork (sortedArtwork_Date, beginDate, endDate):
     AcquiredInRange = lt.newList('SINGLE_LINKED')
-    for artwork in lt.iterator(ArtworksSorted):
+    for artwork in lt.iterator(sortedArtwork_Date):
         if beginDate <= artwork['Date Acquired'] and endDate >= artwork['Date Acquired']:
             lt.addLast(AcquiredInRange, artwork)
     
-    return time, AcquiredInRange
+    return AcquiredInRange
 
 def getArtworksPurchased (catalog):
     purchased = 0
@@ -291,19 +287,36 @@ def cmpArtworkByDateAcquired(artwork1, artwork2):
 
 # Funciones de ordenamiento
 
-def sortCatalog(catalog, size, Sort_Type, cmp):
+def sortArtworkCatalogByDateAcquired(catalog, size, Sort_Type):
     sub_list = lt.subList(catalog, 1, size)
     sub_list = sub_list.copy()
     sorted = None
     start = time.process_time()
     if Sort_Type == 1:
-        sorted = qui.sort(sub_list, cmp)
+        sorted = qui.sort(sub_list, cmpArtworkByDateAcquired)
     elif Sort_Type == 2:
-        sorted = ins.sort(sub_list, cmp)
+        sorted = ins.sort(sub_list, cmpArtworkByDateAcquired)
     elif Sort_Type == 3:
-        sorted = sa.sort(sub_list, cmp)
+        sorted = sa.sort(sub_list, cmpArtworkByDateAcquired)
     elif Sort_Type == 4:
-        sorted = mer.sort(sub_list, cmp)
+        sorted = mer.sort(sub_list, cmpArtworkByDateAcquired)
+    end = time.process_time()
+    time_mseg = (end - start)*1000
+    return time_mseg, sorted
+
+def sortArtistCatalogByBeginDate(catalog, size, Sort_Type):
+    sub_list = lt.subList(catalog, 1, size)
+    sub_list = sub_list.copy()
+    sorted = None
+    start = time.process_time()
+    if Sort_Type == 1:
+        sorted = qui.sort(sub_list, cmpArtistByBeginDate)
+    elif Sort_Type == 2:
+        sorted = ins.sort(sub_list, cmpArtistByBeginDate)
+    elif Sort_Type == 3:
+        sorted = sa.sort(sub_list, cmpArtistByBeginDate)
+    elif Sort_Type == 4:
+        sorted = mer.sort(sub_list, cmpArtistByBeginDate)
     end = time.process_time()
     time_mseg = (end - start)*1000
     return time_mseg, sorted

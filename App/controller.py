@@ -70,6 +70,13 @@ def loadArtist(catalog):
 
 # Funciones de ordenamiento
 
+def sortArtistCatalogByBeginDate(catalog, size, Sort_Type):
+    return model.sortArtistCatalogByBeginDate(catalog, size, Sort_Type)
+
+def sortArtworkCatalogByDateAcquired(catalog, size, Sort_Type):
+    return model.sortArtworkCatalogByDateAcquired(catalog, size, Sort_Type)
+
+
 # Funciones de consulta sobre el catálogo
 def getLast(catalog, num):
     """
@@ -83,17 +90,17 @@ def getFirts(catalog, num):
     """
     return model.getFirts(catalog, num)
 
-def getCronologicalArtist (catalog, beginDate, endDate, Sort_Type):
+def getCronologicalArtist (sortedArtist_BDate, beginDate, endDate):
     """
     Retorna los artistas de un rango dado en orden cronologico
     """
-    return model.getCronologicalArtist (catalog, beginDate, endDate, Sort_Type)
+    return model.getCronologicalArtist (sortedArtist_BDate, beginDate, endDate)
 
-def getCronologicalArtwork (catalog, beginDate, endDate, Sort_Type):
+def getCronologicalArtwork (sortedArtwork_Date, beginDate, endDate):
     """
     Retorna las obras adquiridas de un rango dado en orden cronologico
     """
-    return model.getCronologicalArtwork (catalog, beginDate, endDate, Sort_Type)
+    return model.getCronologicalArtwork (sortedArtwork_Date, beginDate, endDate)
 
 def getArtworksPurchased (catalog):
     """
