@@ -183,11 +183,17 @@ def getArtworksPurchased (catalog):
             purchased += 1
     return purchased
 
-# Funcion 3
+def getArtistInfo(catalog, artistName):
+    artist = catalog['Artist']
+    info = None
+    for i in lt.iterator(artist):
+        if i['DisplayName'].lower() == artistName.lower():
+            info = i
+            break
+    return info
 
-def getArtworkTecnique(catalog, artist):
+def getArtistsArtwork(catalog, artistID):
     pass
-
 
 
 

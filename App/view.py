@@ -213,7 +213,11 @@ while True:
 
             
     elif int(inputs[0]) == 4:
-        print("Implementación en curso, vuelve luego ....")
+        artistName= input("Ingrese el nombre de la/el artista: ")
+        artist = catalog['Artist']
+        artist_info = controller.getArtistInfo(catalog, artistName)
+        Id = artist_info['ConstituentID']
+        artworksOfArtist = controller.getArtistsArtwork(catalog, Id)
 
     elif int(inputs[0]) == 5:
         print("Implementación en curso, vuelve luego ....")
