@@ -198,26 +198,47 @@ def getArtworkTecnique(catalog, artist):
 def getArtworkNationality(catalog, Sort_Type):
 
     """
-    1. Dic 1: Crear un diccionario para obras {} 
-    2. Dic 2: Crear un diccionario para artistas {}
-    3. Iterar por los artistas
-    4. Llenar diccionario id: Valor todo el artista, llave: ConstutentID
-    5. Iterar por las obras
-    6. Sacar ConstutentID de las obras
-    7. Sacar el artista usando el diccionario #2
-    8. Sacar la nacionalidad del Artista 
-    9. Llenar diccionario #1 con la llave Nacionalidad y Lista de Obras
-    9.1 Crear Lista Si la llave no existe el diccionario junto al valor iterado
-    9.2 Anadir a Lista si la llave existe
-    10. Crear Funcion de Comparacion para Dic 1
-    11. Sortear Dic1 por Longitud de las Obras y Mostrar TOP 10 LLaves
-    12. Mostrar 3 primeros y ultimos 3 artistas con la nacionalidad en el primer lugar
+    1. Dic 1: Crear un diccionario para obras {} - Check
+    2. Dic 2: Crear un diccionario para artistas {} - Check
+    3. Iterar por los artistas - Check
+    4. Llenar diccionario id: Valor todo el artista, llave: ConstutentID - Pendiente
+    5. Iterar por las obras -Check
+    6. Sacar ConstutentID de las obras - Pendiente
+    7. Sacar el artista usando el diccionario #2 - Pendiente
+    8. Sacar la nacionalidad del Artista - Pendiente
+    9. Llenar diccionario #1 con la llave Nacionalidad y Lista de Obras - Pendiente
+    9.1 Crear Lista Si la llave no existe el diccionario junto al valor iterado - Pendiente
+    9.2 Anadir a Lista si la llave existe - Pendiente
+    10. Crear Funcion de Comparacion para Dic 1 
+    10.1 Crear Lista de del diccionario para poder organizarla, teniendo en cuenta que las funciones del reto no funcionan con diccionarios
+    11. Sortear Dic1 por Longitud de las Obras y Mostrar TOP 10 LLaves - Imcomplete
+    12. Mostrar 3 primeros y ultimos 3 artistas con la nacionalidad en el primer lugar - Pendiente
 
     """
-
-    artowrksbynt = {}
+    Artists = catalog['Artist']
+    Artworks = catalog['Artwork']
+    # Hacer una lista mas pequena para iterar
     artistsbyid = {}
+    artowrksbynt = {}
+    for item in lt.iterator(Artists):
+        artistsbyid[item] = item['ConstituentID']
+    for times in lt.iterator(Artworks):
+        pass
+    
+    sortedNationality = sortCatalog(Artworks, None, Sort_Type, cmpArtistByNationality)
+    # Implementar en el view() el paso 12
+    
     pass
+
+
+# Funcion 5
+"""
+1. Hacer un diccionario o lista para iterar por los departamentos
+2. Clasificar las obras por los tamanos kg, m2, m3
+2.1 Sacar los valores correspondientes de las obras, del weight y guardarlos en una lista
+2.2 Crear una condicion para poder realizar la regla del costo de la obra por cada uno de los elementos de la lista
+3. En caso de que no haya informacion del tamano, hacer un else y aplicar una tarifa de 48.00 USD
+"""
 
 
 
