@@ -138,11 +138,10 @@ def getArworkByDepartment(catalog, departamento):
 def getTransportationCost(catalog):
     return model.getTransportationCost(catalog)
 
-def getArtworkTotalPriece(ArtworkDepartment):
-    return model.getArtworkTotalPriece(ArtworkDepartment)
+def getArtworkTotal_CostWeight(catalog):
+    return model.getArtworkTotal_CostWeight(catalog)
 
-def getTotalWeight(ArtworkDepartment):
-    return model.getTotalWeight(ArtworkDepartment)
+
 
 
 

@@ -336,10 +336,10 @@ while True:
             departamento = input("Ingrese el nombre del departamento del museo: ")
             ArtworkDepartment = controller.getArworkByDepartment(sortedArtwork_Date, departamento)
             if lt.isPresent(DepartmentList, departamento) == 0:
-                ArtworkDepartment = controller.getTransportationCost(ArtworkDepartment)
+                ArtworkDepartment, TotalPriece, TotalWeight = controller.getTransportationCost(ArtworkDepartment)
                 lt.addLast(DepartmentList, departamento)
-            TotalPriece = controller.getArtworkTotalPriece(ArtworkDepartment)
-            Weight = controller.getTotalWeight(ArtworkDepartment)
+            else:
+                TotalPriece, TotalWeight  = controller.getArtworkTotal_CostWeight(ArtworkDepartment)
             older5 = controller.getFirts(ArtworkDepartment, 5)
             sortByCost = controller.sortByTransCost(ArtworkDepartment)
             moreExpensive5 = controller.getFirts(sortByCost, 5)
@@ -348,7 +348,7 @@ while True:
             print("="*15, " Req No. 3 Answer ", "="*15)
             print("The MoMA is going to transport", lt.size(ArtworkDepartment), "from the",departamento)
             print("REMEMBER! NOT all MoMA's data is complete !!! .... These are estimates.")
-            print("Estimated cargo weight (kg):", Weight)
+            print("Estimated cargo weight (kg):", TotalWeight)
             print("Estimated cargo cost (USD):", TotalPriece)
 
             print("\nThe TOP 5 most expensive items to transport are:")

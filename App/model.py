@@ -349,8 +349,13 @@ def getTransportationCost(catalog):
     por 72; si no hay informacion suficiente para el calculo se deduce que 
     el costo es de 48 USD.
 
-    Retorna el catalogo actualizado 
+    Retorna una tupla:
+        1. El catalogo actualizado .
+        2. La suma estimada de los costos de transporte de las obra.
+        3. La suma estimada del peso de las obras.
     """
+    totalCost = 0 
+    totalWeight = 0 
     for i in lt.iterator(catalog):
         Weight = float(i['Weight'])
         Length = float(i['Length'])
@@ -362,32 +367,28 @@ def getTransportationCost(catalog):
         mayor = max(m2,m3,Weight)
         cost = 48
         if mayor != 0:
-            cost = 72*mayor
+            cost = round(72*mayor, 3)
         
-        i['TransCost'] = round(cost,3)
-    return catalog
+        i['TransCost'] = cost
+        totalCost += cost 
+        totalWeight += Weight
+
+    return catalog, round(totalCost,3), round(totalWeight,3)
 
 
-def getArtworkTotalPriece(catalog):
+def getArtworkTotal_CostWeight(catalog):
     """
     Req 5
-    Retorna la suma estimada de los costos de transporte de cada obra
+    Retorna una tupla:
+        1. La suma estimada de los costos de transporte de las obra.
+        2. La suma estimada del peso de las obras.
     """
-    total = 0
+    Totalcost = 0
+    TotalWeight = 0
     for i in lt.iterator(catalog):
-        cost = i['TransCost']
-        total += cost
-    return round(total,3)
-
-def getTotalWeight(catalog):
-    """
-    Req 5
-    Retorna la suma estimada del peso de las obras 
-    """
-    w = 0
-    for i in lt.iterator(catalog):
-        w += float(i['Weight'])
-    return round(w,3)
+        Totalcost += i['TransCost']
+        TotalWeight += float(i['Weight'])
+    return round(Totalcost,3) ,  round(TotalWeight,3)
 
 
 # Funciones utilizadas para comparar elementos dentro de una lista
