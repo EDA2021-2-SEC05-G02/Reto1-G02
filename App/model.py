@@ -275,9 +275,6 @@ def getArtistTechnique(catalog):
 
     return Technique, topMedium
 
-
-# Funcion 4
-
 def getArtworkNationality(catalog):
 
     """
@@ -315,7 +312,6 @@ def getArtworkNationality(catalog):
     mer.sort(sorted_list, cmpArtistbyNationality)
     lista = lt.subList(sorted_list, 1, 10)
     
-
     return lista, obras[lt.getElement(lista, 1)['Nacionalidad']]
 
 

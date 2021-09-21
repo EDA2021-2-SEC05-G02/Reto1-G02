@@ -26,6 +26,7 @@ import controller
 from DISClib.ADT import list as lt
 assert cf
 import datetime as dt
+import prettytable
 from prettytable import PrettyTable
 import time as tm
 
@@ -71,11 +72,13 @@ def loadData(catalog):
     controller.loadData(catalog)
 
 def printArtistTable(artist):
-    x = PrettyTable()
+    x = PrettyTable(hrules=prettytable.ALL)
     x.field_names = ["ConstituentID", "DisplayName",
                     "BeginDate", "Nationality", 
                     "Gender", "ArtistBio", 
                     "Wiki QID", "ULAN"]
+
+    x._max_width = {"DisplayName":18}
 
     for i in lt.iterator(artist):
         x.add_row([ i["ConstituentID"], i["DisplayName"], 
@@ -88,7 +91,7 @@ def printArtistTable(artist):
     print(x)
 
 def printArtworkTable(artwork):
-    x = PrettyTable()
+    x = PrettyTable(hrules=prettytable.ALL)
     x.field_names = ["ObjectID", "Title", 
                     "ConstituentID", "Medium", 
                     "Dimensions", "Date", 
@@ -113,7 +116,7 @@ def printArtworkTable(artwork):
     print(x)
 
 def printMediumTable(artwork, medium):
-    x = PrettyTable()
+    x = PrettyTable(hrules=prettytable.ALL)
     x.field_names = ["ObjectID", "Title", 
                     "ConstituentID", "Medium", 
                     "Dimensions", "Date", 
@@ -140,7 +143,7 @@ def printMediumTable(artwork, medium):
     print(x)
 
 def printTransCostTable(artwork):
-    x = PrettyTable()
+    x = PrettyTable(hrules=prettytable.ALL)
     x.field_names = ["ObjectID", "Title", 
                     "ConstituentID", "Medium", 
                     "Dimensions", "Date", 
@@ -244,6 +247,8 @@ while True:
             print("The time it took to sort the artwork catalog by Date was:", time ,"mseg\n")
 
     elif int(inputs[0]) == 5:
+        #Req 1
+
         start = tm.process_time()
         if sortedArtist_BDate == None:
             print("Primero tienes que organizar el catalogo de artistas por BeginDate")
@@ -273,6 +278,7 @@ while True:
         print("The time it took to execute the requirement was:", total_time ,"mseg\n")
 
     elif int(inputs[0]) == 6:
+        #Req 2
         start = tm.process_time()
         if sortedArtwork_DateA == None:
             print("Primero tienes que organizar el catalogo de obras por Date Acquired")
@@ -311,6 +317,7 @@ while True:
         print("The time it took to execute the requirement was:", total_time ,"mseg\n")              
 
     elif int(inputs[0]) == 7:
+        #Req 3
         start = tm.process_time()
         artistName= input("Ingrese el nombre de la/el artista: ")
         artist_info = controller.getArtistInfo(catalog, artistName)
@@ -326,12 +333,14 @@ while True:
             print(artistName, "with MoMA ID",Id, "has",lt.size(artworksOfArtist), "pieces in her/his name at the museum.")
             if lt.size(artworksOfArtist) != 0:
                 print("There are" ,len(Technique), "different mediums/techniques in her/his work.\n")
-                x=PrettyTable()
+                x = PrettyTable(hrules=prettytable.ALL)
                 x.field_names = ["Medium Name", "Count"]
                 for i in Technique.keys():
                     x.add_row([i, Technique[i]])
                 x.sortby = "Count"
                 x.reversesort = True
+                x.align["Medium Name"] = "l"
+                x.align["Count"] = "r"
                 if len(Technique) > 5:
                     print("Her/his top 5 Medium/Technique are")
                     print(x.get_string(start=0, end=5))
@@ -347,6 +356,7 @@ while True:
         print("The time it took to execute the requirement was:", total_time ,"mseg\n")
 
     elif int(inputs[0]) == 8:
+        #Req 4
         start = tm.process_time()
         print(controller.getArtworkNationality(catalog))
         end = tm.process_time()
@@ -355,6 +365,7 @@ while True:
 
 
     elif int(inputs[0]) == 9:
+        #Req 5
         start = tm.process_time()
         if sortedArtwork_Date == None:
             print("Primero tienes que organizar el catalogo de obras por Date")
@@ -366,9 +377,9 @@ while True:
                 lt.addLast(DepartmentList, departamento)
             else:
                 TotalPriece, TotalWeight  = controller.getArtworkTotal_CostWeight(ArtworkDepartment)
-            older5 = controller.getFirts(ArtworkDepartment, 5)
-            time, sortByCost = controller.sortByTransCost(ArtworkDepartment)
-            moreExpensive5 = controller.getFirts(sortByCost, 5)
+
+            time, sortByCost = controller.sortByTransCost(ArtworkDepartment)        
+
             print("="*15, " Req No. 5 Inputs ", "="*15)
             print("Estimete the cost to transport all artifacts in " + departamento + " MoMA's Departament")
             print("="*15, " Req No. 3 Answer ", "="*15)
@@ -377,14 +388,24 @@ while True:
             print("Estimated cargo weight (kg):", TotalWeight)
             print("Estimated cargo cost (USD):", TotalPriece)
 
-            print("\nThe TOP 5 most expensive items to transport are:")
-            printTransCostTable(moreExpensive5)
-            print("\nThe TOP 5 oldest items to transport are:")
-            printTransCostTable(older5)
+            if lt.size(ArtworkDepartment) > 5:
+                older5 = controller.getFirts(ArtworkDepartment, 5)
+                moreExpensive5 = controller.getFirts(sortByCost, 5)
+                print("\nThe TOP 5 most expensive items to transport are:")
+                printTransCostTable(moreExpensive5)
+                print("\nThe TOP 5 oldest items to transport are:")
+                printTransCostTable(older5)
+            else:
+                print("\nThe items to be transported, organized by price, are:")
+                printTransCostTable(sortByCost)
+                print("\nThe items to be transported, organized by date, are:")
+                printTransCostTable(ArtworkDepartment)
         end = tm.process_time()
         total_time = (end - start)*1000
         print("The time it took to execute the requirement was:", total_time ,"mseg\n")
+
     elif int(inputs[0]) == 10:
+        #Req 6 (Bono)
         print("Implementación en curso, vuelve luego ....")
     
     else:
