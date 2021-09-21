@@ -27,6 +27,7 @@ from DISClib.ADT import list as lt
 assert cf
 import datetime as dt
 from prettytable import PrettyTable
+import time as tm
 
 """ 
 Utilizar el siguiente codigo en caso de que se alcance el limite de recursion y mande el 
@@ -243,6 +244,7 @@ while True:
             print("The time it took to sort the artwork catalog by Date was:", time ,"mseg\n")
 
     elif int(inputs[0]) == 5:
+        start = tm.process_time()
         if sortedArtist_BDate == None:
             print("Primero tienes que organizar el catalogo de artistas por BeginDate")
         else:
@@ -266,8 +268,12 @@ while True:
                 else:
                     print("The artist in the range are...")
                     printArtistTable(ArtistasCrono)
+        end = tm.process_time()
+        total_time = (end - start)*1000
+        print("The time it took to execute the requirement was:", total_time ,"mseg\n")
 
     elif int(inputs[0]) == 6:
+        start = tm.process_time()
         if sortedArtwork_DateA == None:
             print("Primero tienes que organizar el catalogo de obras por Date Acquired")
         else:
@@ -299,9 +305,13 @@ while True:
                     printArtworkTable(ultimos)  
                 else:
                     print("The artworks in the range are...")
-                    printArtworkTable(ObrasCrono)                  
+                    printArtworkTable(ObrasCrono)    
+        end = tm.process_time()
+        total_time = (end - start)*1000
+        print("The time it took to execute the requirement was:", total_time ,"mseg\n")              
 
     elif int(inputs[0]) == 7:
+        start = tm.process_time()
         artistName= input("Ingrese el nombre de la/el artista: ")
         artist_info = controller.getArtistInfo(catalog, artistName)
         if artist_info == None:
@@ -332,12 +342,20 @@ while True:
                 
                 print("The",Technique[topMedium],"works of",topMedium,"from the collection are:")
                 printMediumTable(artworksOfArtist, topMedium)
+        end = tm.process_time()
+        total_time = (end - start)*1000
+        print("The time it took to execute the requirement was:", total_time ,"mseg\n")
 
     elif int(inputs[0]) == 8:
+        start = tm.process_time()
         print(controller.getArtworkNationality(catalog))
+        end = tm.process_time()
+        total_time = (end - start)*1000
+        print("The time it took to execute the requirement was:", total_time ,"mseg\n")
 
 
     elif int(inputs[0]) == 9:
+        start = tm.process_time()
         if sortedArtwork_Date == None:
             print("Primero tienes que organizar el catalogo de obras por Date")
         else:
@@ -363,8 +381,9 @@ while True:
             printTransCostTable(moreExpensive5)
             print("\nThe TOP 5 oldest items to transport are:")
             printTransCostTable(older5)
-            
-
+        end = tm.process_time()
+        total_time = (end - start)*1000
+        print("The time it took to execute the requirement was:", total_time ,"mseg\n")
     elif int(inputs[0]) == 10:
         print("Implementación en curso, vuelve luego ....")
     
