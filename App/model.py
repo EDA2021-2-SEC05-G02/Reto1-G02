@@ -268,18 +268,36 @@ def getArtworkNationality(catalog):
     12. Mostrar 3 primeros y ultimos 3 artistas con la nacionalidad en el primer lugar - 
 
     """
-    Artists = catalog['Artist']
-    Artworks = catalog['Artwork']
-    artowrksbynt = {}
-    artistsbyid = {}
-    const = lt.newList('ARRAY_LIST')
-    for item in lt.iterator(Artists):
-        artistsbyid[item['ConstituentID']] = item 
+    obras = {'Unknown': []} 
+    artistas = {} 
+    for artist in lt.iterator(catalog['Artist']):
+        artistas[str(artist['ConstituentID'])] = artist
 
-    for con in lt.iterator(Artworks):
-        lt.addLast(const, con['ConstituentID'])
+    for artwork in lt.iterator(catalog['Artwork']):
+        stringIDs = str(artwork['ConstituentID'])
+        artistIDs = stringIDs[1:-1].replace(" ", "").split(",")
+        if len(artistIDs) == 0:
+            obras['Unknown'].append(artwork)
+        
+        for id in artistIDs:
+            artist = artistas[id]
+            nacionalidad = artist['Nationality']
+            if nacionalidad == 'Nationality unknown':
+                obras['Unknown'].append(artwork)
+            elif nacionalidad in obras:
+                obras[nacionalidad].append(artwork)
+            else:
+                obras[nacionalidad] = [artwork]
 
-    return artistsbyid
+    sorted_list = lt.newList('ARRAY_LIST')
+    for key in obras:
+        lt.addLast(sorted_list, {'Longitud':len(obras[key]), 'Nacionalidad': key})
+
+    mer.sort(sorted_list, cmpArtistbyNationality)
+    lista = lt.subList(sorted_list, 1, 10)
+    
+
+    return lista, obras[lt.getElement(lista, 1)['Nacionalidad']]
 
 
 # Funcion 5
@@ -357,6 +375,9 @@ def cmpArtworkByTransCost (cost1, cost2):
 
 def cmpArtworkByDate(artwork1, artwork2): 
     return artwork1['Date'] < artwork2['Date']
+
+def cmpArtistbyNationality(artist1, artist2):
+    return artist1['Longitud'] > artist2['Longitud']
 
 # Funciones de ordenamiento
 
