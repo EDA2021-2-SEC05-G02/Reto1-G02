@@ -147,7 +147,7 @@ def printTransCostTable(artwork):
     x.field_names = ["ObjectID", "Title", 
                     "ConstituentID", "Medium", 
                     "Dimensions", "Date", 
-                    "TransCost", "URL"]
+                    "TransCost (USD)", "URL"]
 
     x._max_width = {"Title":18,"ConstituentID":18, "Medium":18, "Dimensions":18, "URL":15}
 
@@ -377,8 +377,7 @@ while True:
                 lt.addLast(DepartmentList, departamento)
             else:
                 TotalPriece, TotalWeight  = controller.getArtworkTotal_CostWeight(ArtworkDepartment)
-
-            time, sortByCost = controller.sortByTransCost(ArtworkDepartment)        
+        
 
             print("="*15, " Req No. 5 Inputs ", "="*15)
             print("Estimete the cost to transport all artifacts in " + departamento + " MoMA's Departament")
@@ -388,18 +387,21 @@ while True:
             print("Estimated cargo weight (kg):", TotalWeight)
             print("Estimated cargo cost (USD):", TotalPriece)
 
-            if lt.size(ArtworkDepartment) > 5:
+            Top = lt.size(ArtworkDepartment)
+            older5 = ArtworkDepartment
+            if lt.size(older5) > 5:
                 older5 = controller.getFirts(ArtworkDepartment, 5)
+                Top = 5
+            time, sortByCost = controller.sortByTransCost(ArtworkDepartment)
+            moreExpensive5 = sortByCost
+            if lt.size(moreExpensive5) > 5:
                 moreExpensive5 = controller.getFirts(sortByCost, 5)
-                print("\nThe TOP 5 most expensive items to transport are:")
-                printTransCostTable(moreExpensive5)
-                print("\nThe TOP 5 oldest items to transport are:")
-                printTransCostTable(older5)
-            else:
-                print("\nThe items to be transported, organized by price, are:")
-                printTransCostTable(sortByCost)
-                print("\nThe items to be transported, organized by date, are:")
-                printTransCostTable(ArtworkDepartment)
+                
+            print("\nThe TOP", Top, "most expensive items to transport are:")
+            printTransCostTable(moreExpensive5)
+            print("\nThe TOP", Top, "oldest items to transport are:")
+            printTransCostTable(older5)    
+            
         end = tm.process_time()
         total_time = (end - start)*1000
         print("The time it took to execute the requirement was:", total_time ,"mseg\n")
