@@ -452,7 +452,26 @@ def sortArtistCatalogByBeginDate(catalog, size, Sort_Type):
     return time_mseg, sorted
 
 def sortByTransCost(catalog):
-    return qui.sort(catalog, cmpArtworkByTransCost)
+    start = time.process_time()
+    sorted = qui.sort(catalog, cmpArtworkByTransCost)
+    end = time.process_time()
+    time_mseg = (end - start)*1000
+    return time_mseg, sorted
 
-def sortArtworkCatalogByDate(catalog):
-    return qui.sort(catalog, cmpArtworkByDate)
+def sortArtworkCatalogByDate(catalog, size, Sort_Type):
+    sub_list = lt.subList(catalog, 1, size)
+    sub_list = sub_list.copy()
+    sorted = None
+    start = time.process_time()
+    if Sort_Type == 1:
+        sorted = qui.sort(sub_list, cmpArtworkByDate)
+    elif Sort_Type == 2:
+        sorted = ins.sort(sub_list, cmpArtworkByDate)
+    elif Sort_Type == 3:
+        sorted = sa.sort(sub_list, cmpArtworkByDate)
+    elif Sort_Type == 4:
+        sorted = mer.sort(sub_list, cmpArtworkByDate)
+    end = time.process_time()
+    time_mseg = (end - start)*1000
+    return time_mseg, sorted
+    

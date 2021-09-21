@@ -79,8 +79,8 @@ def sortArtworkCatalogByDateAcquired(catalog, size, Sort_Type):
 def sortByTransCost(catalog):
     return model.sortByTransCost(catalog)
 
-def sortArtworkCatalogByDate(catalog):
-    return model.sortArtworkCatalogByDate(catalog)
+def sortArtworkCatalogByDate(catalog, size, Sort_Type):
+    return model.sortArtworkCatalogByDate(catalog, size, Sort_Type)
 
 
 # Funciones de consulta sobre el catálogo

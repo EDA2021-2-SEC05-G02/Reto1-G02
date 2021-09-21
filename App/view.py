@@ -46,9 +46,9 @@ operación solicitada
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
-    print("2- Organizar el catalogo de artistas por fecha de nacimiento")
-    print("3- Organizar el catalogo de obras por fecha de adquisicion")
-    print("4- Organizar el catalogo de obras por fecha")
+    print("2- Organizar el catalogo de artistas por Begin Date")
+    print("3- Organizar el catalogo de obras por Date Acquired")
+    print("4- Organizar el catalogo de obras por Date")
     print("5- Req 1: Listar cronológicamente los artistas")
     print("6- Req 2: Listar cronológicamente las adquisiciones")
     print("7- Req 3: Clasificar obras de un artista por técnica")
@@ -201,7 +201,7 @@ while True:
         printArtworkTable(art)
 
     elif int(inputs[0]) == 2:
-        print("Si desea obtener el catalogo de artistas organizado por fecha de nacimiento usando un algoritmo de organizacion, observe las opciones a continuacion:")
+        print("Si desea obtener el catalogo de artistas organizado por Begin Date usando un algoritmo de organizacion, observe las opciones a continuacion:")
         print("1. Organizar la lista usando Quicksort")
         print("2. Organizar la lista usando Insertionsort")
         print("3. Organizar la lista usando Shellsort")
@@ -212,10 +212,10 @@ while True:
         else:
             Artist = catalog['Artist']
             time, sortedArtist_BDate = controller.sortArtistCatalogByBeginDate(Artist, lt.size(Artist), orden)
-            print("The time it took to sort the artist catalog with the selected algorithm was:", time ,"mseg\n")
+            print("The time it took to sort the artist catalog by Begin Date with the selected algorithm was:", time ,"mseg\n")
 
     elif int(inputs[0]) == 3:
-        print("Si desea obtener la lista de obras organizada por la fecha de adquision usando un algoritmo de organizacion, observe las opciones a continuacion:")
+        print("Si desea obtener la lista de obras organizada por Date Acquired usando un algoritmo de organizacion, observe las opciones a continuacion:")
         print("1. Organizar la lista usando Quicksort  ")
         print("2. Organizar la lista usando Insertionsort ")
         print("3. Organizar la lista usando Shellsort ")
@@ -226,22 +226,31 @@ while True:
         else:
             Artwork = catalog['Artwork']
             time, sortedArtwork_DateA = controller.sortArtworkCatalogByDateAcquired(Artwork, lt.size(Artwork), orden)
-            print("The time it took to sort the artwork catalog with the selected algorithm was:", time ,"mseg\n")
+            print("The time it took to sort the artwork catalog by Date Acquired with the selected algorithm was:", time ,"mseg\n")
 
     elif int(inputs[0]) == 4:
-        Artwork = catalog['Artwork']
-        sortedArtwork_Date = controller.sortArtworkCatalogByDate(Artwork)
-        print("Organizing the catalog by date was successfully completed")
+        print("Si desea obtener la lista de obras organizada por Date usando un algoritmo de organizacion, observe las opciones a continuacion:")
+        print("1. Organizar la lista usando Quicksort  ")
+        print("2. Organizar la lista usando Insertionsort ")
+        print("3. Organizar la lista usando Shellsort ")
+        print("4. Organizar la lista usando Mergesort ")
+        orden = int(input('Seleccione una opcion: '))
+        if orden not in [1,2,3,4]:
+            print("La opcion selecionada no es valida")
+        else:
+            Artwork = catalog['Artwork']
+            time, sortedArtwork_Date = controller.sortArtworkCatalogByDate(Artwork,lt.size(Artwork), orden)
+            print("The time it took to sort the artwork catalog by Date was:", time ,"mseg\n")
 
     elif int(inputs[0]) == 5:
         if sortedArtist_BDate == None:
-            print("Primero tienes que organizar el catalogo de artistas")
+            print("Primero tienes que organizar el catalogo de artistas por BeginDate")
         else:
             beginDate = int(input("Ingrese el año inicial: "))
             endDate = int(input("Ingrese el año final: "))
 
             print("="*15, " Req No. 1 Inputs ", "="*15)
-            print("Artist born between ", beginDate, " and " , endDate, "\n")
+            print("Artist born between" , beginDate, "and" , endDate, "\n")
             print("="*15, " Req No. 1 Answer ", "="*15)
             ArtistasCrono = controller.getCronologicalArtist(sortedArtist_BDate, beginDate, endDate)
             print("There are ", lt.size(ArtistasCrono), " artist born between", beginDate, " and " , endDate,"\n")
@@ -260,7 +269,7 @@ while True:
 
     elif int(inputs[0]) == 6:
         if sortedArtwork_DateA == None:
-            print("Primero tienes que organizar el catalogo de obras")
+            print("Primero tienes que organizar el catalogo de obras por Date Acquired")
         else:
             firstY=int(input("Año incial: "))
             firstM=int(input("Mes incial: "))
@@ -295,14 +304,16 @@ while True:
     elif int(inputs[0]) == 7:
         artistName= input("Ingrese el nombre de la/el artista: ")
         artist_info = controller.getArtistInfo(catalog, artistName)
-        if artist_info != None:
+        if artist_info == None:
+            print("El artista no se encontro")
+        else:
             Id = artist_info['ConstituentID']
             artworksOfArtist = controller.getArtistsArtwork(catalog, Id)
             Technique, topMedium = controller.getArtistTechnique(artworksOfArtist)
             print("="*15, " Req No. 3 Inputs ", "="*15)
             print("Examine the work of the artist named: "+artistName+"\n")
             print("="*15, " Req No. 3 Answer ", "="*15)
-            print(artistName, " with MoMA ID",Id, "has",lt.size(artworksOfArtist), "pieces in her/his name at the museum.")
+            print(artistName, "with MoMA ID",Id, "has",lt.size(artworksOfArtist), "pieces in her/his name at the museum.")
             if lt.size(artworksOfArtist) != 0:
                 print("There are" ,len(Technique), "different mediums/techniques in her/his work.\n")
                 x=PrettyTable()
@@ -319,10 +330,7 @@ while True:
                     print(x)
                 print("\nHis/her most used Medium/Technique is:", topMedium , "with", Technique[topMedium], "pieces.")
                 
-                if Technique[topMedium] >= 3:
-                    print("A sample of 3",topMedium,"from the collection are:")
-                else:
-                    print("The",Technique[topMedium],"works of",topMedium,"from the collection are:")
+                print("The",Technique[topMedium],"works of",topMedium,"from the collection are:")
                 printMediumTable(artworksOfArtist, topMedium)
 
     elif int(inputs[0]) == 8:
@@ -331,7 +339,7 @@ while True:
 
     elif int(inputs[0]) == 9:
         if sortedArtwork_Date == None:
-            print("Primero tienes que organizar el catalogo de obras por fecha")
+            print("Primero tienes que organizar el catalogo de obras por Date")
         else:
             departamento = input("Ingrese el nombre del departamento del museo: ")
             ArtworkDepartment = controller.getArworkByDepartment(sortedArtwork_Date, departamento)
@@ -341,7 +349,7 @@ while True:
             else:
                 TotalPriece, TotalWeight  = controller.getArtworkTotal_CostWeight(ArtworkDepartment)
             older5 = controller.getFirts(ArtworkDepartment, 5)
-            sortByCost = controller.sortByTransCost(ArtworkDepartment)
+            time, sortByCost = controller.sortByTransCost(ArtworkDepartment)
             moreExpensive5 = controller.getFirts(sortByCost, 5)
             print("="*15, " Req No. 5 Inputs ", "="*15)
             print("Estimete the cost to transport all artifacts in " + departamento + " MoMA's Departament")
@@ -356,11 +364,6 @@ while True:
             print("\nThe TOP 5 oldest items to transport are:")
             printTransCostTable(older5)
             
-
-        
-        
-            
-
 
     elif int(inputs[0]) == 10:
         print("Implementación en curso, vuelve luego ....")
