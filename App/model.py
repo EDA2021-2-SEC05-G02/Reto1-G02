@@ -117,7 +117,10 @@ def newArtwork (ObjectID, Title, ConstituentID, Date, Medium, Dimensions, Credit
     artwork['ObjectID'] = int(ObjectID.replace('[', '').replace(']',''))
     artwork['Title'] = Title
     artwork['ConstituentID'] = constID_int
-    artwork['Date'] = Date
+    if Date == "":
+        artwork['Date'] = 5000
+    else:
+        artwork['Date'] = int(Date)
     artwork['Medium'] = Medium
     if Medium == "":
         artwork['Medium'] = "Unknown"
@@ -132,7 +135,7 @@ def newArtwork (ObjectID, Title, ConstituentID, Date, Medium, Dimensions, Credit
         date = DateAcquired.split("-")
         artwork['Date Acquired'] = dt.date(int(date[0]),int(date[1]),int(date[2]))
     else:
-        artwork['Date Acquired'] = dt.date(1,1,1)
+        artwork['Date Acquired'] = dt.date.today()
     artwork['Cataloged'] = Cataloged
     artwork['URL'] = URL
     if URL == "":
@@ -142,22 +145,22 @@ def newArtwork (ObjectID, Title, ConstituentID, Date, Medium, Dimensions, Credit
         artwork['Circumference'] = "Unknown"
     artwork['Depth'] = Depth
     if Depth == "":
-        artwork['Depth'] = "Unknown"
+        artwork['Depth'] = 0
     artwork['Diameter'] = Diameter
     if Diameter == "":
         artwork['Diameter'] = "Unknown"
     artwork['Height'] = Height
     if Height == "":
-        artwork['Height'] = "Unknown"
+        artwork['Height'] = 0
     artwork['Length'] = Length
     if Length == "":
-        artwork['Length'] = "Unknown"
+        artwork['Length'] = 0
     artwork['Weight'] = Weight
     if Weight == "":
-        artwork['Weight'] = "Unknown"
+        artwork['Weight'] = 0
     artwork['Width'] = Width
     if Width == "":
-        artwork['Width'] = "Unknown"
+        artwork['Width'] = 0
     artwork['SeatHeight'] = SeatHeight
     if SeatHeight == "":
         artwork['SeatHeight'] = "Unknown"
@@ -277,6 +280,8 @@ def getArtworkNationality(catalog):
         lt.addLast(const, con['ConstituentID'])
 
     return artistsbyid
+
+
 # Funcion 5
 """
 1. Hacer un diccionario o lista para iterar por los departamentos
@@ -286,6 +291,47 @@ def getArtworkNationality(catalog):
 3. En caso de que no haya informacion del tamano, hacer un else y aplicar una tarifa de 48.00 USD
 """
 
+def getArworkByDepartment (catalog, department):
+    art = lt.newList('ARRAY_LIST')
+    for i in lt.iterator(catalog):
+        if i['Department'].lower() == department.lower():
+            lt.addLast(art, i)
+    return art
+
+def getTransportationCost(catalog):
+    for i in lt.iterator(catalog):
+        Weight = float(i['Weight'])
+        Length = float(i['Length'])
+        Width = float(i['Width'])
+        Depth = float(i['Depth'])
+        Height = float(i['Height'])
+
+        m2_v1 = round((Height/100)*(Width/100),3)
+        m2_v2 = round((Height/100)*(Length/100),3)
+        m3_v1 = round((Height/100)*(Width/100)*(Depth/100),3)
+        m3_v2 = round((Height/100)*(Length/100)*(Depth/100),3)
+
+        mayor = max(m2_v1, m2_v2, m3_v1 ,m3_v2, Weight)
+        cost = 48
+        if mayor != 0:
+            cost = 72*mayor
+        
+        i['TransCost'] = round(cost,3)
+    return catalog
+
+
+def getArtworkTotalPriece(ArtworkDepartment):
+    total = 0
+    for i in lt.iterator(ArtworkDepartment):
+        cost = i['TransCost']
+        total += cost
+    return round(total,3)
+
+def getTotalWeight(ArtworkDepartment):
+    w = 0
+    for i in lt.iterator(ArtworkDepartment):
+        w += float(i['Weight'])
+    return round(w,3)
 
 
 
@@ -309,6 +355,12 @@ def cmpArtistByBeginDate(Artist1, Artist2):
 
 def cmpArtworkByDateAcquired(artwork1, artwork2): 
     return artwork1['Date Acquired'] < artwork2['Date Acquired']
+
+def cmpArtworkByTransCost (cost1, cost2):
+    return cost1['TransCost'] > cost2['TransCost']
+
+def cmpArtworkByDate(artwork1, artwork2): 
+    return artwork1['Date'] < artwork2['Date']
 
 # Funciones de ordenamiento
 
@@ -345,3 +397,9 @@ def sortArtistCatalogByBeginDate(catalog, size, Sort_Type):
     end = time.process_time()
     time_mseg = (end - start)*1000
     return time_mseg, sorted
+
+def sortByTransCost(catalog):
+    return qui.sort(catalog, cmpArtworkByTransCost)
+
+def sortArtworkCatalogByDate(catalog):
+    return qui.sort(catalog, cmpArtworkByDate)

@@ -95,10 +95,16 @@ def printArtworkTable(artwork):
     x._max_width = {"Title":18,"ConstituentID":18, "Medium":18, "Dimensions":18, "URL":15}
 
     for i in lt.iterator(artwork):
-        x.add_row([ i["ObjectID"], i["Title"], 
-                    i["ConstituentID"], i["Medium"], 
-                    i["Dimensions"], i["Date"], 
-                    i["Date Acquired"], i["URL"]])
+        if i["Date"] == 5000:
+            x.add_row([ i["ObjectID"], i["Title"], 
+                        i["ConstituentID"], i["Medium"], 
+                        i["Dimensions"], "Unknown", 
+                        i["Date Acquired"], i["URL"]])
+        else:
+            x.add_row([ i["ObjectID"], i["Title"], 
+                        i["ConstituentID"], i["Medium"], 
+                        i["Dimensions"], i["Date"], 
+                        i["Date Acquired"], i["URL"]])
     x.align = "l"
     x.align["ObjectID"] = "r"
     x.align["Date"] = "r" 
@@ -115,18 +121,53 @@ def printMediumTable(artwork, medium):
 
     for i in lt.iterator(artwork):
         if i["Medium"] == medium:
+            if i["Date"] == 5000:
+                x.add_row([ i["ObjectID"], i["Title"], 
+                            i["ConstituentID"], i["Medium"], 
+                            i["Dimensions"], "Unknown", 
+                            i["Date Acquired"], i["URL"]])
+            else:
+                x.add_row([ i["ObjectID"], i["Title"], 
+                            i["ConstituentID"], i["Medium"], 
+                            i["Dimensions"], i["Date"], 
+                            i["Date Acquired"], i["URL"]]) 
+            
+    x.align = "l"
+    x.align["ObjectID"] = "r"
+    x.align["Date"] = "r" 
+    print(x)
+
+def printTransCostTable(artwork):
+    x = PrettyTable()
+    x.field_names = ["ObjectID", "Title", 
+                    "ConstituentID", "Medium", 
+                    "Dimensions", "Date", 
+                    "TransCost", "URL"]
+
+    x._max_width = {"Title":18,"ConstituentID":18, "Medium":18, "Dimensions":18, "URL":15}
+
+    for i in lt.iterator(artwork):
+        if i["Date"] == 5000:
             x.add_row([ i["ObjectID"], i["Title"], 
-                        i["ConstituentID"], i["Medium"], 
-                        i["Dimensions"], i["Date"], 
-                        i["Date Acquired"], i["URL"]])
+                    i["ConstituentID"], i["Medium"], 
+                    i["Dimensions"], "Unknown", 
+                    i["TransCost"], i["URL"]])
+        else:
+            x.add_row([ i["ObjectID"], i["Title"], 
+                    i["ConstituentID"], i["Medium"], 
+                    i["Dimensions"], i["Date"], 
+                    i["TransCost"], i["URL"]])
+
     x.align = "l"
     x.align["ObjectID"] = "r"
     x.align["Date"] = "r" 
     print(x)
 
 catalog = None
+sortedArtwork_DateA = None
 sortedArtwork_Date = None
 sortedArtist_BDate = None
+DepartmentList = lt.newList()
 
 """
 Menu principal
@@ -183,7 +224,7 @@ while True:
             print("La opcion selecionada no es valida")
         else:
             Artwork = catalog['Artwork']
-            time, sortedArtwork_Date = controller.sortArtworkCatalogByDateAcquired(Artwork, lt.size(Artwork), orden)
+            time, sortedArtwork_DateA = controller.sortArtworkCatalogByDateAcquired(Artwork, lt.size(Artwork), orden)
             print("The time it took to sort the artwork catalog with the selected algorithm was:", time ,"mseg\n")
 
 
@@ -213,7 +254,7 @@ while True:
                     printArtistTable(ArtistasCrono)
 
     elif int(inputs[0]) == 5:
-        if sortedArtwork_Date == None:
+        if sortedArtwork_DateA == None:
             print("Primero tienes que organizar el catalogo de obras")
         else:
             firstY=int(input("Año incial: "))
@@ -229,7 +270,7 @@ while True:
             print("="*15, " Req No. 2 Inputs ", "="*15)
             print("Artwork aquired between "+ str(first)+" and " +str(last)+ "\n")
             print("="*15, " Req No. 2 Answer ", "="*15)
-            ObrasCrono = controller.getCronologicalArtwork(sortedArtwork_Date, first, last)
+            ObrasCrono = controller.getCronologicalArtwork(sortedArtwork_DateA, first, last)
             purchased = controller.getArtworksPurchased(ObrasCrono)
             print("The MoMA acquired", lt.size(ObrasCrono), "unique pieces between", first, "and" , last)
             print("Of which", purchased, "were purchased\n")
@@ -283,9 +324,43 @@ while True:
         print(controller.getArtworkNationality(catalog))
 
     elif int(inputs[0]) == 8:
-        print("Implementación en curso, vuelve luego ....")
+        Artwork = catalog['Artwork']
+        sortedArtwork_Date = controller.sortArtworkCatalogByDate(Artwork)
 
     elif int(inputs[0]) == 9:
+        if sortedArtwork_Date == None:
+            print("Primero tienes que organizar el catalogo de obras por fecha")
+        else:
+            departamento = input("Ingrese el nombre del departamento del museo: ")
+            ArtworkDepartment = controller.getArworkByDepartment(sortedArtwork_Date, departamento)
+            if lt.isPresent(DepartmentList, departamento) == 0:
+                ArtworkDepartment = controller.getTransportationCost(ArtworkDepartment)
+                lt.addLast(DepartmentList, departamento)
+            TotalPriece = controller.getArtworkTotalPriece(ArtworkDepartment)
+            Weight = controller.getTotalWeight(ArtworkDepartment)
+            older5 = controller.getFirts(ArtworkDepartment, 5)
+            sortByCost = controller.sortByTransCost(ArtworkDepartment)
+            moreExpensive5 = controller.getFirts(sortByCost, 5)
+            print("="*15, " Req No. 5 Inputs ", "="*15)
+            print("Estimete the cost to transport all artifacts in " + departamento + " MoMA's Departament")
+            print("="*15, " Req No. 3 Answer ", "="*15)
+            print("The MoMA is going to transport", lt.size(ArtworkDepartment), "from the",departamento)
+            print("REMEMBER! NOT all MoMA's data is complete !!! .... These are estimates.")
+            print("Estimated cargo weight (kg):", Weight)
+            print("Estimated cargo cost (USD):", TotalPriece)
+
+            print("\nThe TOP 5 most expensive items to transport are:")
+            printTransCostTable(moreExpensive5)
+            print("\nThe TOP 5 oldest items to transport are:")
+            printTransCostTable(older5)
+            
+
+        
+        
+            
+
+
+    elif int(inputs[0]) == 10:
         print("Implementación en curso, vuelve luego ....")
     
     else:

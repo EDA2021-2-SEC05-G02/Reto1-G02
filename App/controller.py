@@ -76,6 +76,12 @@ def sortArtistCatalogByBeginDate(catalog, size, Sort_Type):
 def sortArtworkCatalogByDateAcquired(catalog, size, Sort_Type):
     return model.sortArtworkCatalogByDateAcquired(catalog, size, Sort_Type)
 
+def sortByTransCost(catalog):
+    return model.sortByTransCost(catalog)
+
+def sortArtworkCatalogByDate(catalog):
+    return model.sortArtworkCatalogByDate(catalog)
+
 
 # Funciones de consulta sobre el catálogo
 def getLast(catalog, num):
@@ -125,6 +131,18 @@ def getArtworkNationality(catalog):
 
 def getArtistInfo(catalog, artistName):
     return model.getArtistInfo(catalog, artistName)
+
+def getArworkByDepartment(catalog, departamento):
+    return model.getArworkByDepartment(catalog, departamento)
+
+def getTransportationCost(catalog):
+    return model.getTransportationCost(catalog)
+
+def getArtworkTotalPriece(ArtworkDepartment):
+    return model.getArtworkTotalPriece(ArtworkDepartment)
+
+def getTotalWeight(ArtworkDepartment):
+    return model.getTotalWeight(ArtworkDepartment)
 
 
 
