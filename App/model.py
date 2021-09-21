@@ -171,6 +171,9 @@ def newArtwork (ObjectID, Title, ConstituentID, Date, Medium, Dimensions, Credit
 
 # Funciones de consulta
 def getFirts(catalog, num):
+    """
+    Retorna los primeros num elementos de una lista
+    """
     first = lt.newList('SINGLE_LINKED')
     rangmax = num +1
     for i in range(1, rangmax):
@@ -179,6 +182,9 @@ def getFirts(catalog, num):
     return first
 
 def getLast(catalog, num):
+    """
+    Retorna los ultimos num elementos de una lista
+    """
     last = lt.newList('SINGLE_LINKED')
     rangmin = num-1
     for i in range((lt.size(catalog)-rangmin),lt.size(catalog)+1):
@@ -187,6 +193,10 @@ def getLast(catalog, num):
     return last
 
 def getCronologicalArtist (sortedArtist_BDate, beginDate, endDate):
+    """
+    Req 1
+    Retorna la lista de los artistas nacidos entre beginDate y endDate
+    """
     BornInRange = lt.newList('SINGLE_LINKED')
     for artista in lt.iterator(sortedArtist_BDate):
         if beginDate <= artista['BeginDate'] and endDate >= artista['BeginDate']:
@@ -194,6 +204,10 @@ def getCronologicalArtist (sortedArtist_BDate, beginDate, endDate):
     return BornInRange
 
 def getCronologicalArtwork (sortedArtwork_Date, beginDate, endDate):
+    """
+    Req 2
+    Retorna la lista de las obras que fueron adquiridas entre beginDate y endDate
+    """
     AcquiredInRange = lt.newList('SINGLE_LINKED')
     for artwork in lt.iterator(sortedArtwork_Date):
         if beginDate <= artwork['Date Acquired'] and endDate >= artwork['Date Acquired']:
@@ -202,6 +216,10 @@ def getCronologicalArtwork (sortedArtwork_Date, beginDate, endDate):
     return AcquiredInRange
 
 def getArtworksPurchased (catalog):
+    """
+    Req 2
+    Retorna el numero de obras que fueron adquiridas por compra ('purchase')
+    """
     purchased = 0
     for item in lt.iterator(catalog):
         if "purchase" in item['CreditLine'].lower():
@@ -209,6 +227,11 @@ def getArtworksPurchased (catalog):
     return purchased
 
 def getArtistInfo(catalog, artistName):
+    """
+    Req 3
+    Retorna una el diccionario del artista a examinar
+    Si no se encuentra el artista se retorna None
+    """
     artist = catalog['Artist']
     info = None
     for i in lt.iterator(artist):
@@ -218,6 +241,10 @@ def getArtistInfo(catalog, artistName):
     return info
 
 def getArtistsArtwork(catalog, artistID):
+    """
+    Req 3
+    Retorna una TAD lista con todas las obras del artista
+    """
     artwork = catalog['Artwork']
     ArtistsArtwork = lt.newList('ARRAY_LIST')
     for i in lt.iterator(artwork):
@@ -226,6 +253,13 @@ def getArtistsArtwork(catalog, artistID):
     return ArtistsArtwork
 
 def getArtistTechnique(catalog):
+    """
+    Req 3
+    Retorna una tupla: 
+        1. Diccionario con todas las tecnicas de el artista
+        como llaves y la cantidad respectivas de obras como valores
+        2. La tecnica mas usada
+    """
     Technique = {}
     top1 = 0
     topMedium = None
@@ -240,10 +274,6 @@ def getArtistTechnique(catalog):
             topMedium = medium
 
     return Technique, topMedium
-
-
-
-
 
 
 # Funcion 4
@@ -300,16 +330,11 @@ def getArtworkNationality(catalog):
     return lista, obras[lt.getElement(lista, 1)['Nacionalidad']]
 
 
-# Funcion 5
-"""
-1. Hacer un diccionario o lista para iterar por los departamentos
-2. Clasificar las obras por los tamanos kg, m2, m3
-2.1 Sacar los valores correspondientes de las obras, del weight y guardarlos en una lista
-2.2 Crear una condicion para poder realizar la regla del costo de la obra por cada uno de los elementos de la lista
-3. En caso de que no haya informacion del tamano, hacer un else y aplicar una tarifa de 48.00 USD
-"""
-
 def getArworkByDepartment (catalog, department):
+    """
+    Req 5
+    Retorna la lista de las obras que pertenecen al departamento dado
+    """
     art = lt.newList('ARRAY_LIST')
     for i in lt.iterator(catalog):
         if i['Department'].lower() == department.lower():
@@ -317,6 +342,15 @@ def getArworkByDepartment (catalog, department):
     return art
 
 def getTransportationCost(catalog):
+    """
+    Req 5
+    Se calcula el costo para transportar cada obra del catalogo dado y
+    se añade a su respectivo diccionario el calculo mas costoso multiplicado 
+    por 72; si no hay informacion suficiente para el calculo se deduce que 
+    el costo es de 48 USD.
+
+    Retorna el catalogo actualizado 
+    """
     for i in lt.iterator(catalog):
         Weight = float(i['Weight'])
         Length = float(i['Length'])
@@ -334,26 +368,26 @@ def getTransportationCost(catalog):
     return catalog
 
 
-def getArtworkTotalPriece(ArtworkDepartment):
+def getArtworkTotalPriece(catalog):
+    """
+    Req 5
+    Retorna la suma estimada de los costos de transporte de cada obra
+    """
     total = 0
-    for i in lt.iterator(ArtworkDepartment):
+    for i in lt.iterator(catalog):
         cost = i['TransCost']
         total += cost
     return round(total,3)
 
-def getTotalWeight(ArtworkDepartment):
+def getTotalWeight(catalog):
+    """
+    Req 5
+    Retorna la suma estimada del peso de las obras 
+    """
     w = 0
-    for i in lt.iterator(ArtworkDepartment):
+    for i in lt.iterator(catalog):
         w += float(i['Weight'])
     return round(w,3)
-
-
-
-
-
-
-
-
 
 
 # Funciones utilizadas para comparar elementos dentro de una lista
@@ -378,6 +412,7 @@ def cmpArtworkByDate(artwork1, artwork2):
 
 def cmpArtistbyNationality(artist1, artist2):
     return artist1['Longitud'] > artist2['Longitud']
+
 
 # Funciones de ordenamiento
 
