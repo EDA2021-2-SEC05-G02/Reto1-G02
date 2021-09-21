@@ -48,12 +48,13 @@ def printMenu():
     print("1- Cargar información en el catálogo")
     print("2- Organizar el catalogo de artistas por fecha de nacimiento")
     print("3- Organizar el catalogo de obras por fecha de adquisicion")
-    print("4- Req 1: Listar cronológicamente los artistas")
-    print("5- Req 2: Listar cronológicamente las adquisiciones")
-    print("6- Req 3: Clasificar obras de un artista por técnica")
-    print("7- Req 4: Clasificar obras por la nacionalidad de sus creadores")
-    print("8- Req 5: Transportar obras de un departamento")
-    print("9- Req 6: Proponer una nueva exposición en el museo")
+    print("4- Organizar el catalogo de obras por fecha")
+    print("5- Req 1: Listar cronológicamente los artistas")
+    print("6- Req 2: Listar cronológicamente las adquisiciones")
+    print("7- Req 3: Clasificar obras de un artista por técnica")
+    print("8- Req 4: Clasificar obras por la nacionalidad de sus creadores")
+    print("9- Req 5: Transportar obras de un departamento")
+    print("10- Req 6: Proponer una nueva exposición en el museo")
     
 
 def initCatalog(tipo):
@@ -227,8 +228,12 @@ while True:
             time, sortedArtwork_DateA = controller.sortArtworkCatalogByDateAcquired(Artwork, lt.size(Artwork), orden)
             print("The time it took to sort the artwork catalog with the selected algorithm was:", time ,"mseg\n")
 
-
     elif int(inputs[0]) == 4:
+        Artwork = catalog['Artwork']
+        sortedArtwork_Date = controller.sortArtworkCatalogByDate(Artwork)
+        print("Organizing the catalog by date was successfully completed")
+
+    elif int(inputs[0]) == 5:
         if sortedArtist_BDate == None:
             print("Primero tienes que organizar el catalogo de artistas")
         else:
@@ -253,7 +258,7 @@ while True:
                     print("The artist in the range are...")
                     printArtistTable(ArtistasCrono)
 
-    elif int(inputs[0]) == 5:
+    elif int(inputs[0]) == 6:
         if sortedArtwork_DateA == None:
             print("Primero tienes que organizar el catalogo de obras")
         else:
@@ -287,7 +292,7 @@ while True:
                     print("The artworks in the range are...")
                     printArtworkTable(ObrasCrono)                  
 
-    elif int(inputs[0]) == 6:
+    elif int(inputs[0]) == 7:
         artistName= input("Ingrese el nombre de la/el artista: ")
         artist_info = controller.getArtistInfo(catalog, artistName)
         if artist_info != None:
@@ -320,12 +325,9 @@ while True:
                     print("The",Technique[topMedium],"works of",topMedium,"from the collection are:")
                 printMediumTable(artworksOfArtist, topMedium)
 
-    elif int(inputs[0]) == 7:
+    elif int(inputs[0]) == 8:
         print(controller.getArtworkNationality(catalog))
 
-    elif int(inputs[0]) == 8:
-        Artwork = catalog['Artwork']
-        sortedArtwork_Date = controller.sortArtworkCatalogByDate(Artwork)
 
     elif int(inputs[0]) == 9:
         if sortedArtwork_Date == None:
