@@ -281,21 +281,10 @@ def getArtistTechnique(catalog):
 def getArtworkNationality(catalog):
 
     """
-    1. Dic 1: Crear un diccionario para obras {} - Check
-    2. Dic 2: Crear un diccionario para artistas {} - Check
-    3. Iterar por los artistas - Check
-    4. Llenar diccionario id: Valor todo el artista, llave: ConstutentID - Check
-    5. Iterar por las obras -Check
-    6. Sacar ConstutentID de las obras - Check
-    7. Sacar el artista usando el diccionario #2 - Pendiente
-    8. Sacar la nacionalidad del Artista - Pendiente
-    9. Llenar diccionario #1 con la llave Nacionalidad y Lista de Obras - Pendiente
-    9.1 Crear Lista Si la llave no existe el diccionario junto al valor iterado - Pendiente
-    9.2 Anadir a Lista si la llave existe - Pendiente
-    10. Crear Funcion de Comparacion para Dic 1 
-    10.1 Crear Lista de del diccionario para poder organizarla, teniendo en cuenta que las funciones del reto no funcionan con diccionarios
-    11. Sortear Dic1 por Longitud de las Obras y Mostrar TOP 10 LLaves - Imcomplete
-    12. Mostrar 3 primeros y ultimos 3 artistas con la nacionalidad en el primer lugar - 
+    Req 4.
+    Retorna:
+        1. La lista del top 10 nacionalidades, con su respectivo numero de obras
+        2. Las obras de la nacionalidad que se encuentra en la primera posicion de la lista
 
     """
     obras = {'Unknown': []} 
