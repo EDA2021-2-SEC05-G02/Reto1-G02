@@ -303,15 +303,11 @@ def getTransportationCost(catalog):
         Weight = float(i['Weight'])
         Length = float(i['Length'])
         Width = float(i['Width'])
-        Depth = float(i['Depth'])
         Height = float(i['Height'])
 
-        m2_v1 = round((Height/100)*(Width/100),3)
-        m2_v2 = round((Height/100)*(Length/100),3)
-        m3_v1 = round((Height/100)*(Width/100)*(Depth/100),3)
-        m3_v2 = round((Height/100)*(Length/100)*(Depth/100),3)
-
-        mayor = max(m2_v1, m2_v2, m3_v1 ,m3_v2, Weight)
+        m2 = (Height*Width)/10000
+        m3 = (Height*Width*Length)/1000000
+        mayor = max(m2,m3,Weight)
         cost = 48
         if mayor != 0:
             cost = 72*mayor
