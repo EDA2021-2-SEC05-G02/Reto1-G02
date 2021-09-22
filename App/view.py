@@ -402,15 +402,22 @@ while True:
         print("The TOP 10 Countries in the MoMA are:")
         artworksByCountry = controller.getArtworkNationality(catalog)
         ListofCountries = artworksByCountry[0]
+        Popular = artworksByCountry[1]
         x = PrettyTable(hrules=prettytable.ALL)
         x.field_names = ["Artworks", "Nationality"]
         for value in lt.iterator(ListofCountries):
                 x.add_row([value['Longitud'], value['Nacionalidad']])
+                nat = value[0]  
+                print("The Top Nationality is " + str(nat)+ " with " + str(len(Popular)) + " unique pieces")
         print(x)
+        
+        
         # Devolver los tres primeros y los tres ultimos tres.
         end = tm.process_time()
         total_time = (end - start)*1000
         print("The time it took to execute the requirement was:", total_time ,"mseg\n")
+            
+        
         
     elif int(inputs) == 9:
         #Req 5
