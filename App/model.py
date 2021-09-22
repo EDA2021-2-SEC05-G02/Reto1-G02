@@ -169,6 +169,18 @@ def newArtwork (ObjectID, Title, ConstituentID, Date, Medium, Dimensions, Credit
         artwork['Duration'] = "Unknown"
     return artwork
 
+def addArea(catalog):
+    Artwork = catalog['Artwork']
+
+    for i in lt.iterator(Artwork):
+        if (i['Classification'] == 'Painting' or i['Classification'] == 'Photograph' 
+            or i['Classification'] == 'Print' or i['Classification'] == 'Drawing' or i['Classification'] == 'Desing'):
+            Height = float(i['Height'])
+            Width = float(i['Width'])
+            ArtworkArea = (Height*Width)/10000
+
+            i['Area'] = ArtworkArea
+
 # Funciones de consulta
 def getFirts(catalog, num):
     """
@@ -375,6 +387,30 @@ def getArtworkTotal_CostWeight(catalog):
         TotalWeight += float(i['Weight'])
     return round(Totalcost,3) ,  round(TotalWeight,3)
 
+
+def createNewDisplay(catalog,beginYear, finalYear, area):
+    Artwork = catalog['Artwork']
+    display = lt.newList('ARRAY_LIST')
+
+    totalArtworks = 0
+    artArea = 0
+    areaUsed = 0
+    for i in lt.iterator(Artwork):
+        if (i['Classification'] == 'Painting' or i['Classification'] == 'Photograph' \
+            or i['Classification'] == 'Print' or i['Classification'] == 'Drawing') and \
+            (beginYear <= i['Date'] and finalYear >= i['Date']):
+
+            totalArtworks +=1
+
+            artArea += i['Area']
+            if area <= artArea:
+                break
+            else:
+                areaUsed = artArea
+                lt.addLast(display, i)
+    
+    return display, areaUsed, totalArtworks
+    
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 

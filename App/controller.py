@@ -68,6 +68,9 @@ def loadArtist(catalog):
     for artist in input_file:
         model.addArtist(catalog, artist)
 
+def addArea(catalog):
+    model.addArea(catalog)
+
 # Funciones de ordenamiento
 
 def sortArtistCatalogByBeginDate(catalog, size, Sort_Type):
@@ -137,6 +140,9 @@ def getTransportationCost(catalog):
 
 def getArtworkTotal_CostWeight(catalog):
     return model.getArtworkTotal_CostWeight(catalog)
+
+def createNewDisplay(catalog,beginYear, finalYear, area):
+    return model.createNewDisplay(catalog,beginYear, finalYear, area)
 
 
 

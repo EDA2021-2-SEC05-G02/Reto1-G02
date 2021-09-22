@@ -71,6 +71,10 @@ def loadData(catalog):
     """
     controller.loadData(catalog)
 
+def addArea(catalog):
+    controller.addArea(catalog)
+
+
 def printArtistTable(artist):
     x = PrettyTable(hrules=prettytable.ALL)
     x.field_names = ["ConstituentID", "DisplayName",
@@ -176,19 +180,42 @@ def printTransCostTable(artwork, sortby, end):
     else:
         print(x)
 
+def printNewDisplay(artwork):
+    x = PrettyTable(hrules=prettytable.ALL)
+    x.field_names = ["ObjectID", "Title", 
+                    "ConstituentID","Classification", "Medium", 
+                    "Dimensions", "Date", 
+                    "EstArea (m^2)","Department", "URL"]
+
+    x._max_width = {"Title":16,"ConstituentID":15, "Medium":17,"Classification":17 ,"Department":13, "Dimensions":16,"EstArea (m^2)": 14, "URL":15}
+
+    for i in lt.iterator(artwork):
+        if i["Date"] == 5000:
+            x.add_row([ i["ObjectID"], i["Title"], 
+                    i["ConstituentID"], i['Classification'], i["Medium"], 
+                    i["Dimensions"], "Unknown", 
+                    i["Area"],i["Department"], i["URL"]])
+        else:
+            x.add_row([ i["ObjectID"], i["Title"], 
+                    i["ConstituentID"], i['Classification'], i["Medium"], 
+                    i["Dimensions"], i["Date"], 
+                    i["Area"],i["Department"], i["URL"]])
+    print(x)
+
 catalog = None
 sortedArtwork_DateA = None
 sortedArtwork_Date = None
 sortedArtist_BDate = None
 DepartmentList = lt.newList()
-
+Area = None
+   
 """
 Menu principal
 """
 while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
-    if int(inputs[0]) == 1:
+    if int(inputs) == 1:
         print('Si desea mostrar el catalogo usando un tipo especifico de lista, observe las opciones a continuacion:')
         print('1. Obtener el catalogo utilizando listas tipo SINGLE_LINKED')
         print('2. Obtener el catalogo utilizando listas tipo ARRAY_LIST')
@@ -212,7 +239,7 @@ while True:
         art = controller.getLast(catalog['Artwork'], 3)
         printArtworkTable(art)
 
-    elif int(inputs[0]) == 2:
+    elif int(inputs) == 2:
         print("Si desea obtener el catalogo de artistas organizado por Begin Date usando un algoritmo de organizacion, observe las opciones a continuacion:")
         print("1. Organizar la lista usando Quicksort")
         print("2. Organizar la lista usando Insertionsort")
@@ -226,7 +253,7 @@ while True:
             time, sortedArtist_BDate = controller.sortArtistCatalogByBeginDate(Artist, lt.size(Artist), orden)
             print("The time it took to sort the artist catalog by Begin Date with the selected algorithm was:", time ,"mseg\n")
 
-    elif int(inputs[0]) == 3:
+    elif int(inputs) == 3:
         print("Si desea obtener la lista de obras organizada por Date Acquired usando un algoritmo de organizacion, observe las opciones a continuacion:")
         print("1. Organizar la lista usando Quicksort  ")
         print("2. Organizar la lista usando Insertionsort ")
@@ -240,7 +267,7 @@ while True:
             time, sortedArtwork_DateA = controller.sortArtworkCatalogByDateAcquired(Artwork, lt.size(Artwork), orden)
             print("The time it took to sort the artwork catalog by Date Acquired with the selected algorithm was:", time ,"mseg\n")
 
-    elif int(inputs[0]) == 4:
+    elif int(inputs) == 4:
         print("Si desea obtener la lista de obras organizada por Date usando un algoritmo de organizacion, observe las opciones a continuacion:")
         print("1. Organizar la lista usando Quicksort  ")
         print("2. Organizar la lista usando Insertionsort ")
@@ -254,7 +281,7 @@ while True:
             time, sortedArtwork_Date = controller.sortArtworkCatalogByDate(Artwork,lt.size(Artwork), orden)
             print("The time it took to sort the artwork catalog by Date was:", time ,"mseg\n")
 
-    elif int(inputs[0]) == 5:
+    elif int(inputs) == 5:
         #Req 1
 
         start = tm.process_time()
@@ -285,7 +312,7 @@ while True:
         total_time = (end - start)*1000
         print("The time it took to execute the requirement was:", total_time ,"mseg\n")
 
-    elif int(inputs[0]) == 6:
+    elif int(inputs) == 6:
         #Req 2
         start = tm.process_time()
         if sortedArtwork_DateA == None:
@@ -324,7 +351,7 @@ while True:
         total_time = (end - start)*1000
         print("The time it took to execute the requirement was:", total_time ,"mseg\n")              
 
-    elif int(inputs[0]) == 7:
+    elif int(inputs) == 7:
         #Req 3
         start = tm.process_time()
         artistName= input("Ingrese el nombre de la/el artista: ")
@@ -363,7 +390,7 @@ while True:
         total_time = (end - start)*1000
         print("The time it took to execute the requirement was:", total_time ,"mseg\n")
 
-    elif int(inputs[0]) == 8:
+    elif int(inputs) == 8:
         #Req 4
         start = tm.process_time()
         print(controller.getArtworkNationality(catalog))
@@ -372,7 +399,7 @@ while True:
         print("The time it took to execute the requirement was:", total_time ,"mseg\n")
 
 
-    elif int(inputs[0]) == 9:
+    elif int(inputs) == 9:
         #Req 5
         start = tm.process_time()
         if sortedArtwork_Date == None:
@@ -413,9 +440,37 @@ while True:
         total_time = (end - start)*1000
         print("The time it took to execute the requirement was:", total_time ,"mseg\n")
 
-    elif int(inputs[0]) == 10:
+    elif int(inputs) == 10:
         #Req 6 (Bono)
-        print("Implementación en curso, vuelve luego ....")
+        if Area == None:
+            addArea(catalog)
+
+        beginYear = int(input('Digite el año inicial de las obras que desea exponer: '))
+        finalYear = int(input('Digite el año final de las obras que desea exponer: '))
+        area = float(input('Area disponible para la exposición en m^2: '))
+
+        newDisplay, areaUsed, totalArtworks = controller.createNewDisplay(catalog,beginYear, finalYear, area)
+
+        print("="*15, " Req No. 6 (BONUS) Inputs ", "="*15)
+        print("Searching artworks between", beginYear, "to", finalYear,".")
+        print("With an available area of",area,"m^2.")
+        print("="*15, " Req No. 6 (BONUS) Answer ", "="*15)
+        print("The MoMA is going to exhibit pieces from", beginYear, "to", finalYear,".")
+        print("There are",totalArtworks,"possible items in an available area of:",area,"m^2.")
+        print("The possible exhibit has", lt.size(newDisplay),"items.")
+        print("Filling",round(areaUsed,3),"m^2 of the",area,"m^2 available.")
+
+        if lt.size(newDisplay) > 10:
+            primeros = controller.getFirts(newDisplay, 5)
+            ultimos = controller.getLast(newDisplay, 5)
+
+            print("The first 5 objects in the artwork list are:")
+            printNewDisplay(primeros)
+            print("The last 5 objects in the artwork list are:")
+            printNewDisplay(ultimos)
+        else:
+            print("The objects in the artwork list are:")
+            printNewDisplay(newDisplay)
     
     else:
         sys.exit(0)
