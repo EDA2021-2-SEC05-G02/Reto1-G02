@@ -82,6 +82,9 @@ def sortArtworkCatalogByDateAcquired(catalog, size, Sort_Type):
 def sortArtworkCatalogByDate(catalog, size, Sort_Type):
     return model.sortArtworkCatalogByDate(catalog, size, Sort_Type)
 
+def sortArtworkCatalogByTransCost(catalog):
+    return model.sortArtworkCatalogByTransCost(catalog)
+
 
 # Funciones de consulta sobre el catálogo
 def getLast(catalog, num):

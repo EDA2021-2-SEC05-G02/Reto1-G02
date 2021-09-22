@@ -146,7 +146,7 @@ def printMediumTable(artwork, medium):
     x.align["Date"] = "r" 
     print(x)
 
-def printTransCostTable(artwork, sortby, end):
+def printTransCostTable(artwork, stop):
     x = PrettyTable(hrules=prettytable.ALL)
     x.field_names = ["ObjectID", "Title", 
                     "ConstituentID","Classification", "Medium", 
@@ -154,8 +154,11 @@ def printTransCostTable(artwork, sortby, end):
                     "TransCost (USD)", "URL"]
 
     x._max_width = {"Title":16,"ConstituentID":15, "Medium":17,"Classification":17 , "Dimensions":16, "URL":15}
-
+    contador = 0
     for i in lt.iterator(artwork):
+        if stop and contador > 4:
+            break
+        contador += 1
         if i["Date"] == 5000:
             x.add_row([ i["ObjectID"], i["Title"], 
                     i["ConstituentID"], i['Classification'], i["Medium"], 
@@ -170,15 +173,8 @@ def printTransCostTable(artwork, sortby, end):
     x.align = "l"
     x.align["ObjectID"] = "r"
     x.align["Date"] = "r"
-
-    if sortby != None:
-        x.sortby = sortby
-        x.reversesort = True
     
-    if end:
-        print(x.get_string(start=0, end=5))
-    else:
-        print(x)
+    print(x)
 
 def printNewDisplay(artwork):
     x = PrettyTable(hrules=prettytable.ALL)
@@ -308,6 +304,7 @@ while True:
                 else:
                     print("The artist in the range are...")
                     printArtistTable(ArtistasCrono)
+
         end = tm.process_time()
         total_time = (end - start)*1000
         print("The time it took to execute the requirement was:", total_time ,"mseg\n")
@@ -346,7 +343,8 @@ while True:
                     printArtworkTable(ultimos)  
                 else:
                     print("The artworks in the range are...")
-                    printArtworkTable(ObrasCrono)    
+                    printArtworkTable(ObrasCrono)  
+
         end = tm.process_time()
         total_time = (end - start)*1000
         print("The time it took to execute the requirement was:", total_time ,"mseg\n")              
@@ -367,25 +365,30 @@ while True:
             print("="*15, " Req No. 3 Answer ", "="*15)
             print(artistName, "with MoMA ID",Id, "has",lt.size(artworksOfArtist), "pieces in her/his name at the museum.")
             if lt.size(artworksOfArtist) != 0:
-                print("There are" ,len(Technique), "different mediums/techniques in her/his work.\n")
+                print("There are" ,len(Technique), "different mediums/techniques in her/his work.\n")                  
+
                 x = PrettyTable(hrules=prettytable.ALL)
                 x.field_names = ["Medium Name", "Count"]
+                contador = 0
                 for i in Technique.keys():
                     x.add_row([i, Technique[i]])
                 x.sortby = "Count"
                 x.reversesort = True
                 x.align["Medium Name"] = "l"
                 x.align["Count"] = "r"
+
                 if len(Technique) > 5:
                     print("Her/his top 5 Medium/Technique are")
                     print(x.get_string(start=0, end=5))
                 else:
                     print("Her/his Medium/Technique are:")
                     print(x)
+
                 print("\nHis/her most used Medium/Technique is:", topMedium , "with", Technique[topMedium], "pieces.")
                 
                 print("The",Technique[topMedium],"works of",topMedium,"from the collection are:")
                 printMediumTable(artworksOfArtist, topMedium)
+
         end = tm.process_time()
         total_time = (end - start)*1000
         print("The time it took to execute the requirement was:", total_time ,"mseg\n")
@@ -413,7 +416,6 @@ while True:
             else:
                 TotalPriece, TotalWeight  = controller.getArtworkTotal_CostWeight(ArtworkDepartment)
         
-
             print("="*15, " Req No. 5 Inputs ", "="*15)
             print("Estimete the cost to transport all artifacts in " + departamento + " MoMA's Departament")
             print("="*15, " Req No. 3 Answer ", "="*15)
@@ -422,20 +424,13 @@ while True:
             print("Estimated cargo weight (kg):", TotalWeight)
             print("Estimated cargo cost (USD):", TotalPriece)
 
-            
-            if lt.size(ArtworkDepartment) > 5:
-                print("\nThe TOP 5 most expensive items to transport are:")
-                printTransCostTable(ArtworkDepartment, 'TransCost (USD)', True)
-                print("\nThe TOP 5 oldest items to transport are:")
-                printTransCostTable(ArtworkDepartment, None, True)
-            else:
-                print("\nThe items to transport, sorted by Transportation Cost, are:")
-                printTransCostTable(ArtworkDepartment, 'TransCost (USD)', False)
-                print("\nThe items to transport, sorted by date, are:")
-                printTransCostTable(ArtworkDepartment, None, False)
+            print("\nThe TOP 5 oldest items to transport are:")
+            printTransCostTable(ArtworkDepartment, True)
                 
+            sortedArtwork_TransCost = controller.sortArtworkCatalogByTransCost(ArtworkDepartment)
+            print("\nThe TOP 5 most expensive items to transport are:")
+            printTransCostTable(sortedArtwork_TransCost, True)
                 
-            
         end = tm.process_time()
         total_time = (end - start)*1000
         print("The time it took to execute the requirement was:", total_time ,"mseg\n")
@@ -468,6 +463,7 @@ while True:
             printNewDisplay(primeros)
             print("The last 5 objects in the artwork list are:")
             printNewDisplay(ultimos)
+
         else:
             print("The objects in the artwork list are:")
             printNewDisplay(newDisplay)

@@ -179,7 +179,7 @@ def addArea(catalog):
             Width = float(i['Width'])
             ArtworkArea = (Height*Width)/10000
 
-            i['Area'] = ArtworkArea
+            i['Area'] = round(ArtworkArea,5)
 
 # Funciones de consulta
 def getFirts(catalog, num):
@@ -436,6 +436,7 @@ def cmpArtistbyNationality(artist1, artist2):
     return artist1['Longitud'] > artist2['Longitud']
 
 
+
 # Funciones de ordenamiento
 
 def sortArtworkCatalogByDateAcquired(catalog, size, Sort_Type):
@@ -488,4 +489,7 @@ def sortArtworkCatalogByDate(catalog, size, Sort_Type):
     end = time.process_time()
     time_mseg = (end - start)*1000
     return time_mseg, sorted
+
+def sortArtworkCatalogByTransCost(catalog):
+    return mer.sort(catalog, cmpArtworkByTransCost)
     
