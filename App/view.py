@@ -142,31 +142,39 @@ def printMediumTable(artwork, medium):
     x.align["Date"] = "r" 
     print(x)
 
-def printTransCostTable(artwork):
+def printTransCostTable(artwork, sortby, end):
     x = PrettyTable(hrules=prettytable.ALL)
     x.field_names = ["ObjectID", "Title", 
-                    "ConstituentID", "Medium", 
+                    "ConstituentID","Classification", "Medium", 
                     "Dimensions", "Date", 
                     "TransCost (USD)", "URL"]
 
-    x._max_width = {"Title":18,"ConstituentID":18, "Medium":18, "Dimensions":18, "URL":15}
+    x._max_width = {"Title":16,"ConstituentID":15, "Medium":17,"Classification":17 , "Dimensions":16, "URL":15}
 
     for i in lt.iterator(artwork):
         if i["Date"] == 5000:
             x.add_row([ i["ObjectID"], i["Title"], 
-                    i["ConstituentID"], i["Medium"], 
+                    i["ConstituentID"], i['Classification'], i["Medium"], 
                     i["Dimensions"], "Unknown", 
                     i["TransCost"], i["URL"]])
         else:
             x.add_row([ i["ObjectID"], i["Title"], 
-                    i["ConstituentID"], i["Medium"], 
+                    i["ConstituentID"], i['Classification'], i["Medium"], 
                     i["Dimensions"], i["Date"], 
                     i["TransCost"], i["URL"]])
 
     x.align = "l"
     x.align["ObjectID"] = "r"
-    x.align["Date"] = "r" 
-    print(x)
+    x.align["Date"] = "r"
+
+    if sortby != None:
+        x.sortby = sortby
+        x.reversesort = True
+    
+    if end:
+        print(x.get_string(start=0, end=5))
+    else:
+        print(x)
 
 catalog = None
 sortedArtwork_DateA = None
@@ -306,7 +314,7 @@ while True:
                     primeros = controller.getFirts(ObrasCrono, 3)
                     printArtworkTable(primeros)
 
-                    print("\nThe last 3 artist in the range are...")  
+                    print("\nThe last 3 artworks in the range are...")  
                     ultimos = controller.getLast(ObrasCrono, 3)
                     printArtworkTable(ultimos)  
                 else:
@@ -387,20 +395,19 @@ while True:
             print("Estimated cargo weight (kg):", TotalWeight)
             print("Estimated cargo cost (USD):", TotalPriece)
 
-            Top = lt.size(ArtworkDepartment)
-            older5 = ArtworkDepartment
-            if lt.size(older5) > 5:
-                older5 = controller.getFirts(ArtworkDepartment, 5)
-                Top = 5
-            time, sortByCost = controller.sortByTransCost(ArtworkDepartment)
-            moreExpensive5 = sortByCost
-            if lt.size(moreExpensive5) > 5:
-                moreExpensive5 = controller.getFirts(sortByCost, 5)
+            
+            if lt.size(ArtworkDepartment) > 5:
+                print("\nThe TOP 5 most expensive items to transport are:")
+                printTransCostTable(ArtworkDepartment, 'TransCost (USD)', True)
+                print("\nThe TOP 5 oldest items to transport are:")
+                printTransCostTable(ArtworkDepartment, None, True)
+            else:
+                print("\nThe items to transport, sorted by Transportation Cost, are:")
+                printTransCostTable(ArtworkDepartment, 'TransCost (USD)', False)
+                print("\nThe items to transport, sorted by date, are:")
+                printTransCostTable(ArtworkDepartment, None, False)
                 
-            print("\nThe TOP", Top, "most expensive items to transport are:")
-            printTransCostTable(moreExpensive5)
-            print("\nThe TOP", Top, "oldest items to transport are:")
-            printTransCostTable(older5)    
+                
             
         end = tm.process_time()
         total_time = (end - start)*1000

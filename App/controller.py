@@ -76,9 +76,6 @@ def sortArtistCatalogByBeginDate(catalog, size, Sort_Type):
 def sortArtworkCatalogByDateAcquired(catalog, size, Sort_Type):
     return model.sortArtworkCatalogByDateAcquired(catalog, size, Sort_Type)
 
-def sortByTransCost(catalog):
-    return model.sortByTransCost(catalog)
-
 def sortArtworkCatalogByDate(catalog, size, Sort_Type):
     return model.sortArtworkCatalogByDate(catalog, size, Sort_Type)
 
