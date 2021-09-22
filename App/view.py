@@ -393,11 +393,23 @@ while True:
     elif int(inputs) == 8:
         #Req 4
         start = tm.process_time()
-        print(controller.getArtworkNationality(catalog))
+        print("="*15, " Req No. 4 Inputs ", "="*15)
+        print("Ranking countries by their number of artworks in the MoMA")
+        print("="*15, " Req No. 4 Answer ", "="*15)
+        print("The TOP 10 Countries in the MoMA are:")
+        artworksByCountry = controller.getArtworkNationality(catalog)
+        ListofCountries = artworksByCountry[0]
+        popularCountry = artworksByCountry[1]
+        x = PrettyTable()
+        x.field_names = ["Artworks", "Nationality"]
+        for key, value in lt.iterator(ListofCountries):
+                x.add_row([key, value])
+        print(x)
+        # Arreglar que en vez de me aparezca Longtiud y Nacionalidad, los valores de Longitud y Nacionalidad
         end = tm.process_time()
         total_time = (end - start)*1000
         print("The time it took to execute the requirement was:", total_time ,"mseg\n")
-
+        # Devolver los tres primeros y los tres ultimos tres.
 
     elif int(inputs) == 9:
         #Req 5
