@@ -430,7 +430,7 @@ while True:
         
             print("="*15, " Req No. 5 Inputs ", "="*15)
             print("Estimete the cost to transport all artifacts in " + departamento + " MoMA's Departament")
-            print("="*15, " Req No. 3 Answer ", "="*15)
+            print("="*15, " Req No. 5 Answer ", "="*15)
             print("The MoMA is going to transport", lt.size(ArtworkDepartment), "from the",departamento)
             print("REMEMBER! NOT all MoMA's data is complete !!! .... These are estimates.")
             print("Estimated cargo weight (kg):", TotalWeight)
