@@ -35,6 +35,7 @@ from DISClib.Algorithms.Sorting import mergesort as mer
 assert cf
 import datetime as dt
 import time
+import math
 
 """
 Se define la estructura de un catálogo de videos. El catálogo tendrá dos listas, una para los videos, otra para las categorias de
@@ -142,13 +143,14 @@ def newArtwork (ObjectID, Title, ConstituentID, Date, Medium, Dimensions, Credit
         artwork['URL'] = "Unknown"
     artwork['Circumference'] = Circumference
     if Circumference == "":
-        artwork['Circumference'] = "Unknown"
+        artwork['Circumference'] = 0
     artwork['Depth'] = Depth
     if Depth == "":
         artwork['Depth'] = 0
-    artwork['Diameter'] = Diameter
     if Diameter == "":
-        artwork['Diameter'] = "Unknown"
+        artwork['Diameter'] = 0
+    else:
+        artwork['Diameter'] = float(Diameter)
     artwork['Height'] = Height
     if Height == "":
         artwork['Height'] = 0
@@ -173,13 +175,13 @@ def addArea(catalog):
     Artwork = catalog['Artwork']
 
     for i in lt.iterator(Artwork):
-        if (i['Classification'] == 'Painting' or i['Classification'] == 'Photograph' 
-            or i['Classification'] == 'Print' or i['Classification'] == 'Drawing' or i['Classification'] == 'Desing'):
-            Height = float(i['Height'])
-            Width = float(i['Width'])
-            ArtworkArea = (Height*Width)/10000
-
-            i['Area'] = round(ArtworkArea,5)
+        Height = float(i['Height'])
+        Width = float(i['Width'])
+        Radius = float(i['Diameter'] / 2) / 100
+        ArtworkArea = (Height*Width)/10000
+        if i['Diameter'] != 0:
+            ArtworkArea = math.pi * (Radius**2)
+        i['Area'] = round(ArtworkArea,5)
 
 # Funciones de consulta
 def getFirts(catalog, num):
@@ -358,10 +360,14 @@ def getTransportationCost(catalog):
         Length = float(i['Length'])
         Width = float(i['Width'])
         Height = float(i['Height'])
+        Radius = float(i['Diameter'] / 2) / 100
 
         m2 = (Height*Width)/10000
         m3 = (Height*Width*Length)/1000000
-        mayor = max(m2,m3,Weight)
+        m2_v2 = math.pi * (Radius**2)
+        m3_v2 =  (4/3)*(math.pi)*(Radius**3)
+
+        mayor = max(m2,m3,m2_v2,m3_v2,Weight)
         cost = 48
         if mayor != 0:
             cost = round(72*mayor, 3)
@@ -396,18 +402,17 @@ def createNewDisplay(catalog,beginYear, finalYear, area):
     artArea = 0
     areaUsed = 0
     for i in lt.iterator(Artwork):
-        if (i['Classification'] == 'Painting' or i['Classification'] == 'Photograph' \
-            or i['Classification'] == 'Print' or i['Classification'] == 'Drawing') and \
-            (beginYear <= i['Date'] and finalYear >= i['Date']):
-
+        if (beginYear <= i['Date'] and finalYear >= i['Date']) and (i['Area'] <= area):
             totalArtworks +=1
+            if (i['Classification'] == 'Painting' or i['Classification'] == 'Photograph' \
+                or i['Classification'] == 'Print' or i['Classification'] == 'Drawing') and (i['Area'] != 0):
 
-            artArea += i['Area']
-            if area <= artArea:
-                break
-            else:
-                areaUsed = artArea
-                lt.addLast(display, i)
+                artArea += i['Area']
+                if area < artArea:
+                    continue
+                else:
+                    areaUsed = artArea
+                    lt.addLast(display, i)
     
     return display, areaUsed, totalArtworks
     

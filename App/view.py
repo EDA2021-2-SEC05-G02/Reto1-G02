@@ -464,7 +464,7 @@ while True:
         print("="*15, " Req No. 6 (BONUS) Answer ", "="*15)
         print("The MoMA is going to exhibit pieces from", beginYear, "to", finalYear,".")
         print("There are",totalArtworks,"possible items in an available area of:",area,"m^2.")
-        print("The possible exhibit has", lt.size(newDisplay),"items.")
+        print("The possible exhibit has", lt.size(newDisplay),"flat items (paintings, photographs, prints, drawings).")
         print("Filling",round(areaUsed,3),"m^2 of the",area,"m^2 available.")
 
         if lt.size(newDisplay) > 10:

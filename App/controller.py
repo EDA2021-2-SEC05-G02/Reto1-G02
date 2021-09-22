@@ -152,5 +152,3 @@ def createNewDisplay(catalog,beginYear, finalYear, area):
 
 
 
-
-
