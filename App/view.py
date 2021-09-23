@@ -407,12 +407,31 @@ while True:
         x.field_names = ["Artworks", "Nationality"]
         for value in lt.iterator(ListofCountries):
                 x.add_row([value['Longitud'], value['Nacionalidad']])
-                nat = value[0]  
-                print("The Top Nationality is " + str(nat)+ " with " + str(len(Popular)) + " unique pieces")
         print(x)
-        
-        
         # Devolver los tres primeros y los tres ultimos tres.
+
+        items = lt.newList('ARRAY_LIST')
+        count = 0
+        for i in Popular:
+            if count == 3:
+                break
+            count +=1
+            lt.addLast(items, i)
+
+        for j in range (len(Popular)-3, len(Popular)):
+            lt.addLast(items, Popular[j])
+            print(Popular[j])
+        
+        print('The first and last 3 objets in the --- artwork list are:')
+        printArtworkTable(items)
+
+
+
+            
+
+
+        
+        
         end = tm.process_time()
         total_time = (end - start)*1000
         print("The time it took to execute the requirement was:", total_time ,"mseg\n")

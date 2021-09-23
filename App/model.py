@@ -188,7 +188,7 @@ def getFirts(catalog, num):
     """
     Retorna los primeros num elementos de una lista
     """
-    first = lt.newList('SINGLE_LINKED')
+    first = lt.newList('ARRAY_LIST')
     rangmax = num +1
     for i in range(1, rangmax):
         element = lt.getElement(catalog, i)
@@ -199,7 +199,7 @@ def getLast(catalog, num):
     """
     Retorna los ultimos num elementos de una lista
     """
-    last = lt.newList('SINGLE_LINKED')
+    last = lt.newList('ARRAY_LIST')
     rangmin = num-1
     for i in range((lt.size(catalog)-rangmin),lt.size(catalog)+1):
         element = lt.getElement(catalog, i)
@@ -211,7 +211,7 @@ def getCronologicalArtist (sortedArtist_BDate, beginDate, endDate):
     Req 1
     Retorna la lista de los artistas nacidos entre beginDate y endDate
     """
-    BornInRange = lt.newList('SINGLE_LINKED')
+    BornInRange = lt.newList('ARRAY_LIST')
     for artista in lt.iterator(sortedArtist_BDate):
         if beginDate <= artista['BeginDate'] and endDate >= artista['BeginDate']:
             lt.addLast(BornInRange, artista)
@@ -222,7 +222,7 @@ def getCronologicalArtwork (sortedArtwork_Date, beginDate, endDate):
     Req 2
     Retorna la lista de las obras que fueron adquiridas entre beginDate y endDate
     """
-    AcquiredInRange = lt.newList('SINGLE_LINKED')
+    AcquiredInRange = lt.newList('ARRAY_LIST')
     for artwork in lt.iterator(sortedArtwork_Date):
         if beginDate <= artwork['Date Acquired'] and endDate >= artwork['Date Acquired']:
             lt.addLast(AcquiredInRange, artwork)
