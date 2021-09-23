@@ -447,10 +447,10 @@ while True:
             departamento = input("Ingrese el nombre del departamento del museo: ")
             ArtworkDepartment = controller.getArworkByDepartment(sortedArtwork_Date, departamento)
             if lt.isPresent(DepartmentList, departamento) == 0:
-                ArtworkDepartment, TotalPriece, TotalWeight = controller.getTransportationCost(ArtworkDepartment)
+                ArtworkDepartment = controller.getTransportationCost(ArtworkDepartment)
                 lt.addLast(DepartmentList, departamento)
-            else:
-                TotalPriece, TotalWeight  = controller.getArtworkTotal_CostWeight(ArtworkDepartment)
+                
+            TotalPriece, TotalWeight  = controller.getArtworkTotal_CostWeight(ArtworkDepartment)
         
             print("="*15, " Req No. 5 Inputs ", "="*15)
             print("Estimete the cost to transport all artifacts in " + departamento + " MoMA's Departament")

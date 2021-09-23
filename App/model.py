@@ -353,8 +353,6 @@ def getTransportationCost(catalog):
         2. La suma estimada de los costos de transporte de las obra.
         3. La suma estimada del peso de las obras.
     """
-    totalCost = 0 
-    totalWeight = 0 
     for i in lt.iterator(catalog):
         Weight = float(i['Weight'])
         Length = float(i['Length'])
@@ -373,10 +371,8 @@ def getTransportationCost(catalog):
             cost = round(72*mayor, 3)
         
         i['TransCost'] = cost
-        totalCost += cost 
-        totalWeight += Weight
 
-    return catalog, round(totalCost,3), round(totalWeight,3)
+    return catalog
 
 
 def getArtworkTotal_CostWeight(catalog):
