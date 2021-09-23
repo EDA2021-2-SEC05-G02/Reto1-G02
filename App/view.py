@@ -403,12 +403,12 @@ while True:
         artworksByCountry = controller.getArtworkNationality(catalog)
         ListofCountries = artworksByCountry[0]
         Popular = artworksByCountry[1]
+        Artists = artworksByCountry[2]
         x = PrettyTable(hrules=prettytable.ALL)
         x.field_names = ["Artworks", "Nationality"]
         for value in lt.iterator(ListofCountries):
                 x.add_row([value['Longitud'], value['Nacionalidad']])
         print(x)
-        # Devolver los tres primeros y los tres ultimos tres.
 
         items = lt.newList('ARRAY_LIST')
         count = 0
@@ -421,15 +421,10 @@ while True:
         for j in range (len(Popular)-3, len(Popular)):
             lt.addLast(items, Popular[j])
             print(Popular[j])
+
         
         print('The first and last 3 objets in the --- artwork list are:')
         printArtworkTable(items)
-
-
-
-            
-
-
         
         
         end = tm.process_time()

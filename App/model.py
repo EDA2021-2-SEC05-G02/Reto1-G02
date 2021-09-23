@@ -300,9 +300,11 @@ def getArtworkNationality(catalog):
     """
     obras = {'Unknown': []} 
     artistas = {} 
+    autores = {}
+
     for artist in lt.iterator(catalog['Artist']):
         artistas[str(artist['ConstituentID'])] = artist
-
+    
     for artwork in lt.iterator(catalog['Artwork']):
         stringIDs = str(artwork['ConstituentID'])
         artistIDs = stringIDs[1:-1].replace(" ", "").split(",")
@@ -311,6 +313,10 @@ def getArtworkNationality(catalog):
         
         for id in artistIDs:
             artist = artistas[id]
+            if artwork['ObjectID'] in autores:
+                autores[artwork['ObjectID']].append(artist['DisplayName'])
+            else:
+                autores[artwork['ObjectID']] = [artist['DisplayName']]
             nacionalidad = artist['Nationality']
             if nacionalidad == 'Nationality unknown':
                 obras['Unknown'].append(artwork)
@@ -326,7 +332,7 @@ def getArtworkNationality(catalog):
     mer.sort(sorted_list, cmpArtistbyNationality)
     lista = lt.subList(sorted_list, 1, 10)
     
-    return lista, obras[lt.getElement(lista, 1)['Nacionalidad']]
+    return lista, obras[lt.getElement(lista, 1)['Nacionalidad']], autores
 
 
 def getArworkByDepartment (catalog, department):
