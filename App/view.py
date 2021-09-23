@@ -421,8 +421,6 @@ while True:
         for j in range (len(Popular)-3, len(Popular)):
             lt.addLast(items, Popular[j])
             print(Popular[j])
-
-        
         print('The first and last 3 objets in the --- artwork list are:')
         printArtworkTable(items)
         
@@ -468,6 +466,7 @@ while True:
 
     elif int(inputs) == 10:
         #Req 6 (Bono)
+        start = tm.process_time()
         if Area == None:
             addArea(catalog)
 
@@ -498,6 +497,9 @@ while True:
         else:
             print("The objects in the artwork list are:")
             printNewDisplay(newDisplay)
+        end = tm.process_time()
+        total_time = (end - start)*1000
+        print("The time it took to execute the requirement was:", total_time ,"mseg\n")
     
     else:
         sys.exit(0)
